@@ -1,0 +1,163 @@
+ ________________
+/_INICIO_PARTIDA_\
+
+1 --> Leer ficheros de configuración
+2 --> Preguntar: Iniciar/Reanudar partida
+3 --> Caso de reanudar partida: Pedir nombre del fichero o mostrar lista de partidas guardadas
+4 --> Caso de iniciar partida: Pedir colores de los jugadores 
+5 --> Cargar una partida: cargar jugadores y su estado
+ ___________________
+/_OPERATIVA_GENERAL_\ 
+
++ En todo momento se podrá consultar el estado de la partida o realizar una transacción
++ Caso consultar estado de la partida --> se presentará un listado de cada uno de los jugadores con su estado financiero, propiedaddes en posesión y estado de cada una de ellas
++ Caso realizar transacción: 
+	1. Se solicita el identificador del jugador que reliza la transacción (Id --> primera letra de su color)
+	2. Se solicita un codigo para saber la transacción a realizar
+		+ Código propiedad
+		+ Código tarjeta de suerte o caja de comunidad
+		+ Código casilla especial
+	3. Se solicita algún dato más que sea necesario (Ej.: Número de casas a comprar)
+	4. Se presentará un resumen de la transacción a realizar
+	5. Se pedirá al usuario que confirme o cancele la transacción
+ _______________________________
+/_TRANSACCIONES_CON_PROPIEDADES_\
+
++ Introducir un código de propiedad da lugar a 4 tipos de transacciones:
+	1- Compra de una propiedad
+	2- Pagar por caer en la propiedad de otro jugador
+	3- Comprar casas u hoteles
+	4- Hipotecar propiedad
+ __________________
+/_COMPRA_PROPIEDAD_\
+
+*Una vez realizados los dos primeros pasos de la operativa general*
++ Si el código introducido coincide con una propiedad sin dueño la operación será la de compra de la propiedad
+	1. Se presenta un mensaje "Se va a realizar la compra de la propiedad <NombrePropiedad> por parte del jugador <ColorJugador> por un importe de <Euros>. [Aceptar/Cancelar]"
+	2. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+ _______________________________________________
+/_COMPRA/VENTA_CASA/HOTELES_HIPOTECAR_PROPIEDAD_\
+
+*Una vez realizados los dos primeros pasos de la operativa general*
++ Si el código introducido corresponde con una propiedad del mismo jugador la operación será de compra/venta o gestión de hipoteca
+	1. Se preguntará si el jugador quiere comprar casas, vender casas, hipotecar la propiedad o deshipotecar la propiedad
+	- Caso compra de casas
+		2. Se preguntará el número de casas involucradas (el número no puede ser superior al número de casas que queden por construir en esa propiedad, inicialmente 5)
+		- Caso compra de casa
+			3. Se mostrará el mensaje "Se va a realizar la compra de una casa para la propiedad <NombrePropiedad> por parte del jugador <ColorJugador> por un importe de <Euros>. [Aceptar/Cancelar]"
+			4. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+	-Caso vender casa a la banca
+		2. Se preguntará el número de casas involucradas (el número no podrá ser superior al de las casas que posee la propiedad)
+		- Caso de venta de casa
+			3. Se mostrará el mensaje "Se va a realizar la venta de <NúmeroEnLetra> casas para la propiedad <NombrePropiedad> por parte del jugador <ColorJugador> por un  importe de <Euros>. [Aceptar/Cancelar]"
+			4. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+	- Caso hipotecar propiedad
+		*Para hipotecar una propiedad no debe tener casas ni hoteles*
+		2. Se mostrará el mensaje "Se va a realizar la hipoteca de la propiedad <NombrePropiedad> por parte del jugador <ColorJugador> por un importe de <Euros>. [Aceptar/Cancelar]"
+		3. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+
+	- Caso deshipotecar propiedad
+		*Para deshipotecar una propiedad ha debido de ser hipotecada previamente*
+ 		2. Se mostrará el mensaje "Se va a deshipotecar la propiedad <NombrePropiedad> por parte del jugador <ColorJugador> por un importe de <Euros>. [Aceptar/Cancelar]"
+		3. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+ ____________________________
+/_PAGAR_CAER_PROPIEDAD_AJENA_\
+
+*Una vez realizados los dos primeros pasos de la operativa general*
++ Si el código introducido corresponde al de una propiedad que pertenece a otro jugador la operación será de pago por usar dicha propiedad
+	1. Se mostrará el mensaje "El jugador <ColorJugador> usará la propiedad <NombrePropiedad> con [<NúmeroCasas> casas | un Hotel]. Por ello, pagará <Euros> al jugador <ColorJugador>. [Aceptar/Cancelar]"
+	2. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+ _______________________________
+/_CAER_CASILLA_SUERTE/COMUNIDAD_\
+
+
+*Una vez realizados los dos primeros pasos de la operativa general*
++ Si el código introducido es el de una casilla de suerte o de comunidad se realizará la operación correspondiente a dicha carta
+	1. Se mostrará uno de los dos mensajes
+		1- "El jugador <ColorJugador> pagará <Euros> a la banca. [Aceptar/Cancelar]"
+		2- "El jugador <ColorJugador> cobrará <Euros> de la banca. [Aceptar/Cancelar]"
+	2. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+ _______________________
+/_CAER_CASILLA_ESPECIAL_\
+
+*Una vez realizados los dos primeros pasos de la operativa general*
++ Si el código introducido es el de una casilla especial se realizará la operación correspondiente a dicha casilla
+	1- Casilla00 - Salida
+		1. Se mostrará el mensaje "El jugador <ColorJugador> cobrará <Euros> a la banca. [Aceptar/Cancelar]"
+		2. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+	2- Casilla 04 - Pago de impuestos / Casilla 38 - Pago de tasas
+		1. Se mostrará el mensaje "El jugador <ColorJugador> pagará <Euros> de la banca. [Aceptar/Cancelar]"
+		2. Aceptar --> Se realiza la operación / Cancelar --> Se cancela la operación
+ _____________________________
+/_OPERATIVA_GENERAL_DE_COBROS_\
+
++ Si en cualquiera de las operaciones en las que el jugador paga dinero se produce el problema de que éste mismo se queda con un saldo negativo el sistema hará dos pasos
+	1. Preguntar al jugador en cuál de sus propiedades desea vender casas o hipotecar la propiedad. Esta operación se repetirá hasta que el jugador vuelva a tener saldo positivo
+	*Una propiedad hipotecada no produce beneficios si otro jugador cae en ella*
+	2. Si el jugador ha vendido todas las casas e hipotecado todas sus propiedades y sigue sin tener saldo, el jugador abandona la partida y todo su dinero y propiedades pasan al jugador acreedor (las propiedades siguen estando hipotecadas)
+ _______________________
+/_ATRIBUTOS_DEL_SISTEMA_\
+
++ Si el programa se cierra cuando vuelva a lanzarse preguntará si se quiere una nueva partida o si se quiere continuar por el mismo punto en el que se quedó la última partida
++ El sistema será fácilmente portable a otras ciudades. Cambiando los ficheros de propiedades.
++ El sistema podrá funcionar en diferentes idiomas. 
+	1. Al inicio deberá permitir cambiar el idioma
+		- Castellano
+		- Inglés
+		- Catalán
+		- Euskera
+		
+
+
+ 			       --> MenuCarga	   		      --> Transaccion
+MenuIdioma --> MenuBienvenida			    --> MenuPrincipal
+			       --> MenuPartidaNueva 		      --> Estadisticas
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

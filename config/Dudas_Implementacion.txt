@@ -1,0 +1,2 @@
+La función "removePlayer" de la clase Game, tiene en cuenta si el jugador está en bancarrota o simplemente es una función que elimina al jugador sin tener nada en cuenta
+
