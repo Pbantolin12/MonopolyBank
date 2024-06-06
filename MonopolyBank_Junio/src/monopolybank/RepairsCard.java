@@ -32,13 +32,15 @@ public class RepairsCard extends MonopolyCode {
     
     //Obtenemos cuantas casas tiene el jugador
     private int calculateAmountHouses(Player player){
+        //Local var
         int houses = 0;
+        
+        //Code
         for(Property property : player.getProperties()){
             if(property instanceof Street){
                 if(((Street) property).getBuiltHouses() == 5){
                    houses += 4;
-                }
-                else{
+                } else{
                     houses += ((Street) property).getBuiltHouses();
                 }
             }
@@ -48,7 +50,10 @@ public class RepairsCard extends MonopolyCode {
     
     //Obtenemos cuantos hoteles tiene el jugador
     private int calculateAmountHotel(Player player){
+        //Local var
         int hotels = 0;
+        
+        //Code
         for(Property property : player.getProperties()){
             if(property instanceof Street){
                 if(((Street) property).getBuiltHouses() == 5){
@@ -61,14 +66,15 @@ public class RepairsCard extends MonopolyCode {
     
     //Mostrar resumen
     public void showSummary(Player player, int amount){
-         textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + amount + " euros");
-         player.setBalance(-amount);
+        textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + amount + " euros");
+        player.setBalance(-amount);
     }
     
     //Buscamos los valores numéricos correspondientes a los precios en la descripción de la carta 
     private List<Integer> searchAmount(String text){
         //Local var
         List<Integer> amountList = new ArrayList<>();
+        
         //Code
         Pattern numberPattern = Pattern.compile("-?(\\d+)"); // [-? --> Signo negativo opcional \\d+€ --> Un dígito o más] Buscamos este patrón
         Matcher amount = numberPattern.matcher(text); //Buscamos el patrón en el String recibido
@@ -78,5 +84,4 @@ public class RepairsCard extends MonopolyCode {
         }
         return amountList;
     }
-    
 }

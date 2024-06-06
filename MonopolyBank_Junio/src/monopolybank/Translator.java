@@ -10,6 +10,7 @@ public class Translator {
     
     //Métodos
     
+    //Constructor
     public Translator(String FileName){ //Constructor
         
     }

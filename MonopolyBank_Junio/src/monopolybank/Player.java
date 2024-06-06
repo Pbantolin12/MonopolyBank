@@ -138,18 +138,15 @@ public class Player implements Serializable{
                     if(street.getBuiltHouses() > 0){
                         street.setBuiltHouses(this, -1);
                         collected += street.getHousePrice();
-                    }
-                    else if(!street.getMortgaged()){
+                    } else if(!street.getMortgaged()){
                         mortgage(street);
                         collected += street.getMortgageValue();
                     }
-                }
-                else if(!property.getMortgaged()){  
+                } else if(!property.getMortgaged()){  
                     mortgage(property);
                     collected += property.getMortgageValue();
                 }
-            }
-            else{
+            } else{
                 textTerminal.error("La propiedad no pertenece al jugador");
                 textTerminal.info("Operacion cancelada");
             }
@@ -227,5 +224,4 @@ public class Player implements Serializable{
         this.propertiesMortaged.add(property);
         this.balance += property.getMortgageValue();
     }
-    
 }

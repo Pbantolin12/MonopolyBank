@@ -31,5 +31,4 @@ public class MonopolyCode implements Serializable{
     public int getId(){
         return this.id;
     }
-    
 }

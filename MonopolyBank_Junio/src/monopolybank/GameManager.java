@@ -20,45 +20,43 @@ public class GameManager {
     private Game game;
     
     //Methods
+    
+    //Función que se encarga de iniciar el juego
     public void start() throws IOException, FileNotFoundException, ClassNotFoundException{
         //Local var
         int opt;
+        
         //Code
-        this.textTerminal = new TextTerminal(); //Creamos un nuevo terminal de texto
+        this.textTerminal = new TextTerminal(); 
         do{
-            opt = askForGame(); //Menú para preguntar si se desea cargar partida  
-            switch(opt){ //Dependiendo de la opción escogida hacemos una cosa u otra
-                case 1:
-                    askForResumeGame(); //Preguntamos por la partida que desea cargar
-                    break;
-                case 2:
-                    askForNewGame(); //Preguntamos por la nueva partida que desea crear
-                    break;
-                case 3:
-                    textTerminal.info("Saliendo");
-                    break;
-                default:
-                    textTerminal.error("La opcion introducida no es correcta"); //Mostramos un mensaje de error
-                    break;
+            opt = askForGame(); 
+            switch(opt){ 
+                case 1 -> askForResumeGame(); 
+                case 2 -> askForNewGame(); 
+                case 3 -> textTerminal.info("Saliendo");
+                default -> textTerminal.error("La opcion introducida no es correcta"); //Mostramos un mensaje de error
             }
         } while(opt < 1 || opt > 3);
         this.game.play();
     }
     
-    private int askForGame(){ //Pregunta si queremos cargar o crear una partida
+    //Preguntamos el usuario si quiere crear o cargar una partida
+    private int askForGame(){ 
         textTerminal.showln("Bienvenido a MonopolyBank");
         textTerminal.showln("1.Cargar partida guardada");
         textTerminal.showln("2.Crear nueva partida");
         textTerminal.showln("3.Salir");
         textTerminal.show(">>Introduzca una opcion: ");
-        return textTerminal.read(); //Leemos la opción y la devolvemos
+        return textTerminal.read();
     }
         
-    private void askForResumeGame() throws FileNotFoundException, IOException, ClassNotFoundException{ //Carga las listas de partidas      
+    //Proceso para cargar una partida
+    private void askForResumeGame() throws FileNotFoundException, IOException, ClassNotFoundException{   
         //Local var
-        String fileName; //Nombre del archivo
-        int counter = 1; //Contador
+        String fileName; 
+        int counter = 1;
         int option = 0;
+        
         //Code
         if(fileList.length != 0){
             textTerminal.info("Cargando lista de partidas");
@@ -79,14 +77,12 @@ public class GameManager {
             }
             if(option == counter){
                 start();
-            }
-            else{
+            } else{
                 //Cargamos la partida 
                 fileName = fileList[option - 1].getName();
                 this.game = load(fileName);
             }
-        }
-        else{
+        } else{
             textTerminal.nextLine();
             textTerminal.error("La carpeta esta vacia");
             textTerminal.info("Se va a crear una partida nueva");
@@ -94,9 +90,12 @@ public class GameManager {
         }
     }
     
-    private void askForNewGame() throws FileNotFoundException, IOException{ //Proceso para crear una partida
+    //Proceso para crear una partida
+    private void askForNewGame() throws FileNotFoundException, IOException{
         //Local var
         boolean availableName = false;
+        
+        //Code
         while(availableName == false){
             textTerminal.show(">>Introduzca el nombre de la nueva partida: ");
             String fileName = scanner.nextLine();
@@ -104,18 +103,20 @@ public class GameManager {
             if(availableName == true){
                 //Cargar datos y crear jugadores
                  this.game = new Game(textTerminal, fileName);
-            }
-            else{
+            } else{
                 textTerminal.error("Ya existe una partida con ese nombre o incluye caracteres no validos");
             }
         }
         textTerminal.info("Creando la partida");
     }
     
-    private boolean validateName(String gameName){ //Comprueba que el nombre sea válido
+    //Función para comprobar que el nombre de la partida es válido
+    private boolean validateName(String gameName){ 
         //Local var
         String nameToCheck;
         String notAllowed = "[/\\:*?\"<>|']";
+        
+        //Code
         //Comprobar si tiene caracteres no válidos
         Pattern checkChars = Pattern.compile(notAllowed); //Contiene los caracteres no permitidos
         Matcher name = checkChars.matcher(gameName); //Contiene el nombre que vamos a comprobar 
@@ -132,14 +133,14 @@ public class GameManager {
         return true;
     }
     
+    //Cargamos el juego
     private Game load(String fileName) throws IOException{
         File file = new File(fileDir, fileName);
         try ( ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file))) {
            Object obj = objIn.readObject();
            if(obj instanceof Game){
                return (Game) obj;
-           }
-           else {
+           } else {
             throw new IOException("El archivo no contiene un objeto de la clase Game.");
             }
         } catch (ClassNotFoundException e) {

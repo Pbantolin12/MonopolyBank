@@ -56,5 +56,4 @@ public class PaymentCharge extends MonopolyCode {
         }
         return amountList;
     }
-    
 }

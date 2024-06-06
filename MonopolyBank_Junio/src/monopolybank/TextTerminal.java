@@ -5,27 +5,32 @@ public class TextTerminal extends Terminal {
     
     //Atributos
     
-    //Métodos
-    
+    //Constructor
     public TextTerminal(){ 
         TranslatorManager translatorM = new TranslatorManager();
     }
     
-    public void showln(String text){ //Muestra el texto con un salto de línea
+    //Métodos
+    
+    //Muestra el texto con un salto de línea
+    public void showln(String text){ 
         System.out.println(text);
     }
     
-    public void nextLine(){ //Introduce un salto de línea
+    //Introduce un salto de línea
+    public void nextLine(){ 
         System.out.println(" ");
     }
     
-    public void error(String desc){ //Muestra un mensaje de error
+    //Muestra un mensaje de error
+    public void error(String desc){ 
         this.nextLine();
         System.out.println("//-ERROR-\\\\ --> " + desc);
         this.nextLine();
     }
     
-    public void info(String info){ //Muestra un mensaje informando de algo 
+    //Muestra un mensaje informando de algo 
+    public void info(String info){ 
         this.nextLine();
         System.out.println("**" + info + "**");
         this.nextLine();

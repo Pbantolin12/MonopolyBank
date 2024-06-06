@@ -57,7 +57,6 @@ public class Street extends Property {
             case 5, -5 -> "cinco";
             default -> "una";
         };
-       
         if(nHouses >= 0){
             textTerminal.showln("Se va a realizar la compra de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador [" + 
                 player.getColor() + "] por un importe de " + amount + " euros");
@@ -105,8 +104,11 @@ public class Street extends Property {
     
     //Copiamos la información a un array de enteros
     private int[] copyInfo(String[] info){
-        int[] auxArray = new int[6]; //Array auxiliar que rellenaremos con la información que necesitamos
+        //Local var
+        int[] auxArray = new int[6]; 
         int i = -1;
+        
+        //Code
         for(int j = 3; j < 8; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
             auxArray[++i] = Integer.parseInt(info[j]); //Asignamos cada valor a cada posición del array
         }
@@ -173,7 +175,6 @@ public class Street extends Property {
                 this.setBuiltHouses(this.getOwner(), nHouses);
             }
             default -> textTerminal.error("Opcion incorrecta");
-        
         }
     }
 }

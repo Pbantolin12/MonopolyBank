@@ -73,7 +73,7 @@ public class Property extends MonopolyCode {
         return this.mortgageValue;
     }
     
-     //Obtener el precio de la propiedad
+    //Obtener el precio de la propiedad
     public int getPrice(){
         return this.price;
     }

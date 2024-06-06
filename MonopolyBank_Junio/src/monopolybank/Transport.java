@@ -76,8 +76,7 @@ public class Transport extends Property {
                 player.setBankrupt(this.getOwner());
             } else{
                 this.getOwner().setBalance(payment);
-            }
-            
+            } 
         }
     }
     

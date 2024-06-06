@@ -39,7 +39,10 @@ public class Game implements Serializable{
     //Métodos
     
     public void play() throws IOException{
-         int option = 0;
+        //Local var
+        int option = 0;
+        
+        //Code
         while(playerList.size() > 1 && option != 3){
             if(this.textTerminal == null){
                 this.textTerminal = new TextTerminal();
@@ -49,7 +52,7 @@ public class Game implements Serializable{
             textTerminal.showln("3.Salir");
             option = textTerminal.read();
             switch(option){
-                case 1:
+                case 1 -> {
                     textTerminal.show(">>Introduzca el codigo de la tarjeta: ");
                     int cardCode = textTerminal.read(); //id de la carta
                     MonopolyCode card = this.idTypeMap.get(cardCode); //Obtenemos la carta según el id
@@ -58,22 +61,17 @@ public class Game implements Serializable{
                     Player player = this.playerList.get(playerCode); //Obtenemos el jugador mediante su id
                     if(player.getBankrupt()){
                         this.removePlayer(player);
-                    } 
-                    else{
+                    } else{
                         card.doOperation(player);
                         save();
                     }
-                    break;
-                case 2:
-                    this.showGameState();
-                    break;
-                case 3:
+                }
+                case 2 -> this.showGameState();
+                case 3 -> {
                     save();
                     textTerminal.info("Saliendo");
-                    break;
-                default:
-                    textTerminal.error("Opcion incorrecta");
-                    break;
+                }
+                default -> textTerminal.error("Opcion incorrecta");
             }
         } 
     }
@@ -155,16 +153,17 @@ public class Game implements Serializable{
     
     //Comprobamos que no se repiten letras
     private boolean charRepeated(String text){ 
-       //Local var
-       Set<Character> aux = new HashSet<>(); //Nuevo conjunto para almacenar las letras
-       //Code
-       for(char character:text.toCharArray()){ //Recorremos el string caracter por caracter
-           if(!aux.contains(character)) //Si la letra no está ne el conjunto la introducimos
+        //Local var
+        Set<Character> aux = new HashSet<>(); //Nuevo conjunto para almacenar las letras
+       
+        //Code
+        for(char character:text.toCharArray()){ //Recorremos el string caracter por caracter
+            if(!aux.contains(character)) //Si la letra no está ne el conjunto la introducimos
                aux.add(character);
-           else return true; //Si la letra está en el conjunto devolvemos verdadero
-       }
-       return false;
-   }
+            else return true; //Si la letra está en el conjunto devolvemos verdadero
+        }
+        return false;
+    }
     
     //Cargar las cartas y propiedades 
     private void loadMonopolyCodes(String configInfo){
@@ -240,15 +239,16 @@ public class Game implements Serializable{
     
     //Guardamos la partida
     private void save() throws IOException {
-       try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileDir))) {
-           out.writeObject(this);
-       } catch(IOException saveError){
-           throw new IOException("Error al guardar el juego", saveError);
-       }
-   }
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileDir))) {
+            out.writeObject(this);
+        } catch(IOException saveError){
+            throw new IOException("Error al guardar el juego", saveError);
+        }
+    }
     
     private void showGameState(){
-        textTerminal.showln("||__RESUMEN DE LA PARTIDA__||");
+        textTerminal.showln(" _________________________");
+        textTerminal.showln("|__RESUMEN DE LA PARTIDA__|");
         Collection<Player> playersList = playerList.values();
         for(Player player : playersList){
             textTerminal.showln("---------------------------");
@@ -274,5 +274,4 @@ public class Game implements Serializable{
             }
         }
     }
-    
 }

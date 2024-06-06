@@ -18,24 +18,24 @@ public class Service extends Property {
     //Métodos
     
     //Obtener el valor del alquiler a pagar
-     @Override
+    @Override
     public int getPaymentForRent(){
         textTerminal.show(">>Introduce el numero marcado en los dados: ");
         int num = textTerminal.read();
         int nService = this.getNumberService();
-        switch(nService){
-            case 1:
-                return 4*num;
-            case 2:
-                return 10*num;
-            default:
-                return 0;
-        }
+        return switch (nService) {
+            case 1 -> 4*num;
+            case 2 -> 10*num;
+            default -> 0;
+        };
     }
     
     //Obtenemos el número de cartas que posee el jugador
     private int getNumberService(){
+        //Local var
         int cont = 0;
+        
+        //Code
         for(Property property: this.getOwner().getProperties()){
             if(this.getClass().equals(property.getClass())){
                 cont++;
@@ -58,8 +58,11 @@ public class Service extends Property {
     
     //Copiamos la información a un array de enteros
     private int[] copyInfo(String[] info){
+        //Local var
         int[] auxArray = new int[2]; //Array auxiliar que rellenaremos con la información que necesitamos
         int i = -1;
+        
+        //Code
         for(int j = 3; j < 4; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
             auxArray[++i] = Integer.parseInt(info[j]); //Asignamos cada valor a cada posición del array
         }
@@ -88,7 +91,7 @@ public class Service extends Property {
     }
     
     //Realizar una operación de un propietario
-     @Override
+    @Override
     public void doOwnerOperations(){
         textTerminal.showln("1.Hipotecar");
         textTerminal.showln("2.Deshipotecar");
