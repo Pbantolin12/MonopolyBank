@@ -1,0 +1,92 @@
+|________ACCIONES_DISPONIBLES________|;|_________AVAILABLE_ACTIONS__________|
+| 1.Introducir codigo de la tarjeta  |;| 1.Enter card code                  |
+| 2.Mostrar resumen                  |;| 2.Show summary                     |
+| 3.Salir                            |;| 3.Exit                             |
+>>Introduzca una opcion: ;>>Enter an option: 
+>>Introduzca el codigo de la tarjeta: ;>>Enter the card code: 
+>>Introduzca el codigo de jugador: ;>>Enter the player code: 
+Saliendo...;Coming out...
+Opcion incorrecta;Wrong choice
+>>Introduzca el numero de jugadores: ;>>Enter the number of players: 
+El numero de jugadores introducidos no es correcto;The number of players entered is not correct
+Colores disponibles: ;Available colors: 
+>>Introduzca la primera letra de cada color: ;>>Enter the first letter of each color: 
+El numero de colores elegido no es correcto;The number of colors chosen is not correct
+Hay colores repetidos;There are repeated colors
+Creando nuevo jugador [rojo] --> Id: 1;Creating new player [red] -> Id: 1
+>>Introduzca el nombre del jugador: ;>>Enter the player name: 
+Creando nuevo jugador [verde] --> Id: 2;Creating new player [green] -> Id: 2
+Creando nuevo jugador [azul] --> Id: 3;Creating new player [blue] -> Id: 3
+Creando nuevo jugador [negro] --> Id: 4;Creating new player [black] -> Id: 4
+El jugador ;The player 
+ ha sido eliminado de la partida; has been removed from the game
+||--El jugador ;||-The player is 
+ ha ganado la partida--||; won the match-||
+Error al guardar el juego;Error when saving the game
+|____RESUMEN DE LA PARTIDA____|;|________GAME SUMMARY_________|;
+-> Jugador: ;-> Player: 
+-> Nombre: ;-> Name: 
+-> Dinero: ;-> Money: 
+|-PROPIEDADES SIN HIPOTECAR-|;|-PROPERTIES WITHOUT MORTGAGE-|
+-> Propiedad: [;-> Property: [
+--> Casas: ;-> Houses: 
+--> Valor: ;--> Value: 
+--> Valor hipoteca: ;--> Mortgage value: 
+|-PROPIEDADES HIPOTECADAS-|;|-MORTGAGED PROPERTIES-|
+Propiedad: [;Property: [
+|_Bienvenido_a_MonopolyBank_|;|__Wellcome_a_MonopolyBank__|
+| 1.Cargar partida guardada |;| 1.Load saved game         |
+| 2.Crear nueva partida     |;| 2.Create new game         |
+| 3.Salir                   |;| 3.Exit                    |
+Cargando lista de partidas;Loading list of games
+|Cancelar|;|Cancel|
+La carpeta esta vacia;The folder is empty
+Se va a crear una partida nueva;A new game will be created
+>>Introduzca el nombre de la nueva partida: ;>>Enter the name of the new game: 
+Ya existe una partida con ese nombre o incluye caracteres no validos;A game with that name already exists or includes invalid characters
+Creando la partida;Creating the game
+El archivo no contiene un objeto de la clase Game;The file does not contain an object of the Game class
+Clase Game no encontrada al cargar el juego;Class Game not found when loading the game
+ cobrara de la banca ; cash from the bank 
+ pagara a la banca ; will pay to the bank 
+1.Pagar;1.Pay
+2.Cancelar;2.Cancel
+Operacion cancelada;Operation cancelled
+No hay suficiente dinero para pagar;There’s not enough money to pay
+>>Introduce el id de la propiedad: ;>>Enter the property id: 
+ha sido hipotecado;has been mortgaged
+Ingresados ;Admitted 
+No se ha encontrado la propiedad;The property was not found
+LISTA DE PROPIEDADES;PROPERTY LIST
+La propiedad no pertenece al jugador;The property does not belong to the player
+>>Introduce el numero marcado en los dados: ;>>Enter the number marked in the dice: 
+ usara la propiedad ; will use the property 
+ con ; with 
+ servicios. Por ello, pagara ; services. You will pay 
+ al jugador ; the player 
+Se va a realizar la compra de la propiedad ;It will make the purchase of the property 
+ por parte del jugador ; by the player 
+ por un importe de ; for an amount of 
+1.Hipotecar;1.Mortgage
+2.Deshipotecar;2.Demortgage
+Esta propiedad esta hipotecada;This property is mortgaged
+Esta propiedad no esta hipotecada;This property is not mortgaged
+ casas. Por ello, pagara ; houses. For this, you will pay 
+ al jugador ; the player 
+dos;two
+tres;three
+cuatro;four
+cinco;five
+una;a
+ casa para la propiedad ; house for the property 
+Se va a realizar la venta de ;The sale of 
+Demasiadas casas para edificar;Too many houses to build
+No hay tantas casas edificadas;There are not so many houses built
+Propiedad hipoteceada no se permite esta accion;Hypothetical property is not allowed this action
+ que esta hipotecada, por lo que no pagara nada; that it is mortgaged, so it will pay nothing
+1.Hipoteca;1.Mortgage
+2.Comprar casas;2.Purchase of houses
+3.Vender casas;3.Sell houses
+>>Introduzca el numero de casas que deseas comprar: ;>>Enter the number of houses you want to buy: 
+>>Introduzca el numero de casas que deseas vender: ;>>Enter the number of houses you want to sell: 
+ estaciones. Por ello, pagara ; stations. For this, you will pay ;

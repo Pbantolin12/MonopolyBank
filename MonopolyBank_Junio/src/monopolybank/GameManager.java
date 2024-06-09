@@ -27,14 +27,14 @@ public class GameManager {
         int opt;
         
         //Code
-        this.textTerminal = new TextTerminal(); 
+        this.textTerminal =  TextTerminal.getInstance(); 
         do{
             opt = askForGame(); 
             switch(opt){ 
                 case 1 -> askForResumeGame(); 
                 case 2 -> askForNewGame(); 
-                case 3 -> textTerminal.info("Saliendo");
-                default -> textTerminal.error("La opcion introducida no es correcta"); //Mostramos un mensaje de error
+                case 3 -> textTerminal.info("Saliendo...");
+                default -> textTerminal.error("Opcion incorrecta"); 
             }
         } while(opt < 1 || opt > 3);
         this.game.play();
@@ -42,10 +42,12 @@ public class GameManager {
     
     //Preguntamos el usuario si quiere crear o cargar una partida
     private int askForGame(){ 
-        textTerminal.showln("Bienvenido a MonopolyBank");
-        textTerminal.showln("1.Cargar partida guardada");
-        textTerminal.showln("2.Crear nueva partida");
-        textTerminal.showln("3.Salir");
+        textTerminal.showln(" ___________________________");
+        textTerminal.showln("|_Bienvenido_a_MonopolyBank_|");
+        textTerminal.showln("| 1.Cargar partida guardada |");
+        textTerminal.showln("| 2.Crear nueva partida     |");
+        textTerminal.showln("| 3.Salir                   |");
+        textTerminal.showln("|___________________________|");
         textTerminal.show(">>Introduzca una opcion: ");
         return textTerminal.read();
     }
@@ -71,7 +73,7 @@ public class GameManager {
                 textTerminal.show(">>Introduzca una opcion: ");
                 option = textTerminal.read();
                 if(option < 1 || option > counter){
-                    textTerminal.error("Opcion introducida no valida");
+                    textTerminal.error("Opcion incorrecta");
                     counter = 1;
                 }
             }
@@ -102,7 +104,7 @@ public class GameManager {
             availableName = validateName(fileName);
             if(availableName == true){
                 //Cargar datos y crear jugadores
-                 this.game = new Game(textTerminal, fileName);
+                 this.game = new Game(this.textTerminal, fileName);
             } else{
                 textTerminal.error("Ya existe una partida con ese nombre o incluye caracteres no validos");
             }
@@ -141,7 +143,7 @@ public class GameManager {
            if(obj instanceof Game){
                return (Game) obj;
            } else {
-            throw new IOException("El archivo no contiene un objeto de la clase Game.");
+            throw new IOException("El archivo no contiene un objeto de la clase Game");
             }
         } catch (ClassNotFoundException e) {
             throw new IOException("Clase Game no encontrada al cargar el juego", e);

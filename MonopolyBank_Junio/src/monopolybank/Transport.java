@@ -45,8 +45,8 @@ public class Transport extends Property {
     
     //Mostrar resumen de la compra
     private void showPurchaseSummary(int amount, Player player){
-        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador [" + 
-            player.getColor() + "] por un importe de " + amount + " euros");
+        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
+            player.getColor() + " por un importe de " + amount + " euros");
     }
     
     //Copiamos la información a un array de enteros

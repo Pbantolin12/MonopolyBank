@@ -52,7 +52,7 @@ public class Player implements Serializable{
             if(amount <= this.balance){
                 textTerminal.showln("1.Pagar");
                 textTerminal.showln("2.Cancelar");
-                textTerminal.show(">>Introduzca la opcion: ");
+                textTerminal.show(">>Introduzca una opcion: ");
                 switch(textTerminal.read()){
                     case 1 -> {
                         this.balance -= amount;
@@ -80,7 +80,7 @@ public class Player implements Serializable{
                     } else{
                         while(this.balance < 0 || this.propertiesOwned.size() == 0){
                             this.showProperties();   
-                            textTerminal.show(">>Introduzca el id de la propiedad a hipotecar: ");
+                            textTerminal.show(">>Introduce el id de la propiedad: ");
                             int id = textTerminal.read();
                             Property property = searchProperty(id);
                             if(property != null){

@@ -35,10 +35,10 @@ public class PaymentCharge extends MonopolyCode {
     //Mostrar resumen
     public void showSummary(Player player, int amount){
          if(amount > 0){
-            textTerminal.showln("El jugador " + player.getColor() + " cobrara " + amount + " de la banca");
+            textTerminal.showln("El jugador " + player.getColor() + " cobrara de la banca " + amount + " euros");
             player.setBalance(amount);
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " pagara " + Math.abs(amount) + " a la banca");
+            textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + Math.abs(amount) + " euros");
             player.setBalance(amount);
         }
     }

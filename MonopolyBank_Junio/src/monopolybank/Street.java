@@ -37,14 +37,14 @@ public class Street extends Property {
     
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
-        textTerminal.showln("El jugador [" + player.getColor() + "] usara la propiedad " + this.getName() + " con " + this.getBuiltHouses() + 
-                " casas. Por ello, pagara " + amount + " al jugador [" + this.getOwner().getColor() + "]");
+        textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getBuiltHouses() + 
+                " casas. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());
     }
     
     //Mostrar resumen de la compra de una propiedad
     private void showPurchaseSummary(int amount, Player player){
-        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador [" + 
-                player.getColor() + "] por un importe de " + amount + " euros");
+        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
+                player.getColor() + " por un importe de " + amount + " euros");
     }
     
     //Mostrar resumen de la compra o venta de casas
@@ -58,11 +58,11 @@ public class Street extends Property {
             default -> "una";
         };
         if(nHouses >= 0){
-            textTerminal.showln("Se va a realizar la compra de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador [" + 
-                player.getColor() + "] por un importe de " + amount + " euros");
+            textTerminal.showln("Se va a realizar la compra de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador " + 
+                player.getColor() + " por un importe de " + amount + " euros");
         } else{
-            textTerminal.showln("Se va a realizar la venta de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador [" + 
-                player.getColor() + "] por un importe de " + Math.abs(amount) + " euros");
+            textTerminal.showln("Se va a realizar la venta de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador " + 
+                player.getColor() + " por un importe de " + Math.abs(amount) + " euros");
         }
    }
     
@@ -134,8 +134,7 @@ public class Street extends Property {
                     this.getOwner().setBalance(payment);
                 }
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " que esta hipotecada, "
-                + "por lo que no pagara nada");  
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " que esta hipotecada, por lo que no pagara nada");  
         }
     }
     
@@ -145,12 +144,12 @@ public class Street extends Property {
         textTerminal.showln("1.Hipoteca");
         textTerminal.showln("2.Comprar casas");
         textTerminal.showln("3.Vender casas");
-        textTerminal.show(">>Introduzca la opcion: ");
+        textTerminal.show(">>Introduzca una opcion: ");
         switch(textTerminal.read()){
             case 1 -> {
                 textTerminal.showln("1.Hipotecar");
                 textTerminal.showln("2.Deshipotecar");
-                textTerminal.show(">>Introduzca la opcion: ");
+                textTerminal.show(">>Introduzca una opcion: ");
                 int opt = textTerminal.read();
                 if(opt == 1 && !this.getMortgaged()){
                     this.setMortgaged(true);
