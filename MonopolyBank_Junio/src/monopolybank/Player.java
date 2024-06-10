@@ -18,9 +18,9 @@ public class Player implements Serializable{
     private List<Property> propertiesMortaged; //Lista de propiedades hipotecadas
     
     //Constructor
-    public Player(int id, TextTerminal terminal, String name, Color color){
+    public Player(int id , String name, Color color){
+        textTerminal = TextTerminal.getInstance();
         this.id = id;
-        this.textTerminal = terminal;
         this.name = name;
         this.color = color;
         this.balance = 1500;
@@ -48,6 +48,7 @@ public class Player implements Serializable{
     
     //Pagar (devolvemos True si se ha pagado y False si no se ha pagado)
     public boolean pay(int amount, boolean mandatory){
+        textTerminal = TextTerminal.getInstance();
         if(!mandatory){ //Pago no obligatorio
             if(amount <= this.balance){
                 textTerminal.showln("1.Pagar");
@@ -72,33 +73,31 @@ public class Player implements Serializable{
                 this.balance -= amount;
                 return true;
             } else{
-                if(this.propertiesMortaged.isEmpty()){
-                    this.balance -= amount;
-                    sellActives(Math.abs(this.balance), true);
-                    if(this.balance > 0){
-                        return true;
-                    } else{
-                        while(this.balance < 0 || this.propertiesOwned.size() == 0){
+                this.balance -= amount;
+                sellActives(true);
+                if(this.balance > 0){
+                    return true;
+                } else{
+                    if(this.propertiesMortaged.isEmpty()){
+                        while(!this.propertiesOwned.isEmpty()){
+                            textTerminal.info("Dinero insuficiente, se van a hipotecar propiedades");
                             this.showProperties();   
                             textTerminal.show(">>Introduce el id de la propiedad: ");
                             int id = textTerminal.read();
                             Property property = searchProperty(id);
                             if(property != null){
-                                propertiesOwned.remove(property);
-                                propertiesMortaged.add(property);
-                                property.setMortgaged(true);
-                                this.balance += property.getMortgageValue();
-                                textTerminal.info(property.getName() + "ha sido hipotecado");
-                                textTerminal.info("Ingresados " + property.getMortgageValue() + "euros");
+                                mortgage(property);
                             } else{
                                 textTerminal.error("No se ha encontrado la propiedad");
                             }
                         }
-                        if(this.balance >= 0){
-                            return true;
-                        }
-                        return false;
                     }
+                }
+                if(this.balance >= 0){
+                    return true;
+                } else{
+                    this.setBankrupt(this);
+                    return false;
                 }
             }
         }
@@ -107,51 +106,78 @@ public class Player implements Serializable{
     
     //Mostrar las propiedades que  tiene el jugador
     private void showProperties(){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("LISTA DE PROPIEDADES");
         for(Property property : this.propertiesOwned){
-            textTerminal.showln("[" + property.getId() + "] " + property.getConfigTextLine());
+            textTerminal.showln("[" + property.getId() + "] " + property.getName());
         } 
     }
     
-    //Establecer bancarrota
-    public void setBankrupt(Player newOwner){
-        for(int i = 0; i < propertiesOwned.size(); i++){
-            propertiesOwned.get(i).setOwner(newOwner);
-            propertiesOwned.remove(i);
-        }
-        this.bankrupt = true;
-    }
-    
-    //Vender los activos del jugador
-    private void sellActives(int target, boolean mandatory){     //CAMBIAR LA OBLIGATORIEDAD
-        int collected = 0;
+    //Vender activos del jugador
+    private void sellActives(boolean mandatory){
+        //Local var
+        int id;
         Property property = null;
-        do{
+        
+        //Code
+        textTerminal = TextTerminal.getInstance();
+        if(!mandatory){
             this.showProperties();   
             textTerminal.show(">>Introduce el id de la propiedad: ");
-            int id = textTerminal.read();
+            id = textTerminal.read();
             property = searchProperty(id);
-            if(property != null){
-                if(property instanceof Street){
-                    Street street = (Street) property;
-                
-                    if(street.getBuiltHouses() > 0){
-                        street.setBuiltHouses(this, -1);
-                        collected += street.getHousePrice();
-                    } else if(!street.getMortgaged()){
-                        mortgage(street);
-                        collected += street.getMortgageValue();
+            if(property != null && property instanceof Street){
+                Street street = (Street) property;
+                textTerminal.showln("1.Vender");
+                textTerminal.showln("2.Cancelar");
+                textTerminal.show(">>Introduzca una opcion: ");
+                switch(textTerminal.read()){
+                    case 1 -> {
+                        textTerminal.show(">>Introduzca el numero de casas que desea vender (disponibles " + street.getBuiltHouses() + "): ");
+                        int nHousesSell = textTerminal.read();
+                        street.sellHouses(this, nHousesSell);
                     }
-                } else if(!property.getMortgaged()){  
-                    mortgage(property);
-                    collected += property.getMortgageValue();
+                    case 2 -> {
+                        textTerminal.info("Operacion cancelada");
+                    }
                 }
             } else{
                 textTerminal.error("La propiedad no pertenece al jugador");
-                textTerminal.info("Operacion cancelada");
             }
-        } while(collected < target && thereAreThingsToSell());  
+        } else {
+            while(this.balance < 0 && thereAreHouseToSell()){
+                this.showProperties();   
+                textTerminal.show(">>Introduce el id de la propiedad: ");
+                id = textTerminal.read();
+                property = searchProperty(id);
+                if(property != null){
+                    if(property instanceof Street street){
+                        street.sellHouses(this, street.getBuiltHouses());
+                    }
+                } else{
+                    textTerminal.error("La propiedad no pertenece al jugador");
+                }
+            }
+            if(this.balance < 0){
+                textTerminal.showln("No hay suficiente dinero para pagar");
+            }
+        }
     }
+    
+    //Saber si hay casas que vender o no
+    private boolean thereAreHouseToSell(){
+        //Local var
+        int nPropertyHasHouses = 0;
+        for(Property property : this.propertiesOwned){
+            if(property instanceof Street street){
+                if(street.getBuiltHouses() > 0){
+                    nPropertyHasHouses++;
+                }
+            }
+        }
+        return nPropertyHasHouses != 0;
+    }
+    
     
     //Buscamos la propiedad en la lista de propiedades en posesión
     private Property searchProperty(int id){
@@ -185,11 +211,6 @@ public class Player implements Serializable{
         this.propertiesOwned.add(property);
     }
     
-    //Obtenemos si hay cosas que  vender o no
-    private boolean thereAreThingsToSell(){
-        return !this.propertiesOwned.isEmpty();
-    }
-    
     //Saber si el jugador está en bancarrota
     public boolean getBankrupt(){
         if(this.balance <= 0 && this.propertiesOwned.isEmpty()){
@@ -197,9 +218,21 @@ public class Player implements Serializable{
                 property.setOwner(null);
                 this.getPropertiesMortaged().remove(property);
             }
-            return true;
+            this.bankrupt = true;
+            return this.bankrupt;
         }
-        return false;
+        this.bankrupt = false;
+        return this.bankrupt;
+    }
+    
+    //Establecer bancarrota
+    public void setBankrupt(Player newOwner){
+        for(int i = 0; i < propertiesOwned.size(); i++){
+            propertiesOwned.get(i).setOwner(newOwner);
+            propertiesOwned.remove(i);
+        }
+        textTerminal.showln("El jugador " + this.name + " esta en bancarrota");
+        this.bankrupt = true;
     }
     
     //Obtener el color del jugador
@@ -223,5 +256,18 @@ public class Player implements Serializable{
         this.propertiesOwned.remove(property);
         this.propertiesMortaged.add(property);
         this.balance += property.getMortgageValue();
+        textTerminal.info(property.getName() + "ha sido hipotecado");
+        textTerminal.info("Ingresados " + property.getMortgageValue() + "euros");
+    }
+    
+    //Aceptar venta de una casa
+    public void sell(Street street, int nHouses){
+        textTerminal.showln("1.Vender");
+        textTerminal.showln("2.Cancelar");
+        textTerminal.show(">>Introduzca una opcion: ");
+        switch(textTerminal.read()){
+            case 1 -> this.balance += street.getHousePrice() * nHouses;
+            case 2 -> textTerminal.showln("Operacion cancelada");
+        }
     }
 }

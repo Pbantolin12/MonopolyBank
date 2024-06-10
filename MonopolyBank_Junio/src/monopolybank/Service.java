@@ -5,14 +5,14 @@ public class Service extends Property {
     
     //Atributos
     private int[] costStaying; 
-    private transient TextTerminal textTerminal;
+    private transient TextTerminal textTerminal = TextTerminal.getInstance();;
     
     //Constructor
-     public Service(int id, String desc, String configInfo, TextTerminal terminal, int price, boolean mortaged, int mValue) {
-        super(id, desc, configInfo, terminal, price, mortaged, mValue);
+     public Service(int id, String desc, String configInfo , int price, boolean mortaged, int mValue) {
+        super(id, desc, configInfo, price, mortaged, mValue);
+        textTerminal = TextTerminal.getInstance();
         String[] splitInfo = configInfo.split(";"); //Separa la línea según los ";"
         this.costStaying = copyInfo(splitInfo);
-        this.textTerminal = terminal;
     }
      
     //Métodos
@@ -20,6 +20,7 @@ public class Service extends Property {
     //Obtener el valor del alquiler a pagar
     @Override
     public int getPaymentForRent(){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.show(">>Introduce el numero marcado en los dados: ");
         int num = textTerminal.read();
         int nService = this.getNumberService();
@@ -46,12 +47,14 @@ public class Service extends Property {
     
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberService() + 
             " servicios. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
     }
     
     //Mostrar resumen de la compra
     private void showPurchaseSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
             player.getColor() + " por un importe de " + amount + " euros");
     }
@@ -63,7 +66,7 @@ public class Service extends Property {
         int i = -1;
         
         //Code
-        for(int j = 3; j < 4; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
+        for(int j = 3; j <= 4; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
             auxArray[++i] = Integer.parseInt(info[j]); //Asignamos cada valor a cada posición del array
         }
         return auxArray;
@@ -93,6 +96,7 @@ public class Service extends Property {
     //Realizar una operación de un propietario
     @Override
     public void doOwnerOperations(){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipotecar");
         textTerminal.showln("2.Deshipotecar");
         if(textTerminal.read() == 1 && !this.getMortgaged()){

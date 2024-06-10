@@ -25,8 +25,8 @@ public class Game implements Serializable{
     private String fileName;
     
     //Constructor
-    public Game(TextTerminal textTerminal, String fileName) throws FileNotFoundException, IOException{
-        this.textTerminal = textTerminal;
+    public Game(String fileName) throws FileNotFoundException, IOException{
+        textTerminal = TextTerminal.getInstance();
         this.idTypeMap = new HashMap<>();
         this.playerList = new HashMap<>();
         this.fileName = fileName;
@@ -43,6 +43,7 @@ public class Game implements Serializable{
         int option = 0;
         
         //Code
+        textTerminal = TextTerminal.getInstance();
         while(playerList.size() > 1 && option != 3){
             textTerminal.nextLine();
             textTerminal.showln(" ____________________________________");
@@ -72,6 +73,7 @@ public class Game implements Serializable{
                 case 3 -> {
                     save();
                     textTerminal.info("Saliendo...");
+                    System.exit(0);
                 }
                 default -> textTerminal.error("Opcion incorrecta");
             }
@@ -115,26 +117,26 @@ public class Game implements Serializable{
                                         textTerminal.info("Creando nuevo jugador [rojo] --> Id: 1");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
                                         String nameP = scan.nextLine();
-                                        playerList.put(1, new Player(1, textTerminal, nameP, Color.rojo));
+                                        playerList.put(1, new Player(1, nameP, Color.rojo));
                                     }
                                     case 'v', 'V' -> {
                                         textTerminal.info("Creando nuevo jugador [verde] --> Id: 2");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
                                         String nameP = scan.nextLine();
-                                        playerList.put(2, new Player(2, textTerminal, nameP, Color.verde));
+                                        playerList.put(2, new Player(2, nameP, Color.verde));
                                     }
                                     case 'a', 'A' -> {
                                         textTerminal.info("Creando nuevo jugador [azul] --> Id: 3");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
                                         String nameP = scan.nextLine();
-                                        playerList.put(3, new Player(3, textTerminal, nameP, Color.azul));
+                                        playerList.put(3, new Player(3, nameP, Color.azul));
                                     }
                                     case 'n', 'N' -> {
                                        
                                         textTerminal.info("Creando nuevo jugador [negro] --> Id: 4");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
                                         String nameP = scan.nextLine();
-                                        playerList.put(4,new Player(4, textTerminal, nameP, Color.negro));
+                                        playerList.put(4,new Player(4, nameP, Color.negro));
                                     }
                                 }
                             }
@@ -174,11 +176,11 @@ public class Game implements Serializable{
         
         //Code
         switch(propertyType){
-            case "REPAIRS_CARD" -> setMonopolyCode(id, new RepairsCard(id, propertyType, configInfo, this.textTerminal));
-            case "PAYMENT_CHARGE_CARD" -> setMonopolyCode(id, new PaymentCharge(id, propertyType, configInfo, this.textTerminal));
-            case "STREET" -> setMonopolyCode(id, new Street(id, propertyType, configInfo, this.textTerminal, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
-            case "TRANSPORT" -> setMonopolyCode(id, new Transport(id, propertyType, configInfo, this.textTerminal, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
-            case "SERVICE" -> setMonopolyCode(id, new Service(id, propertyType, configInfo, this.textTerminal, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "REPAIRS_CARD" -> setMonopolyCode(id, new RepairsCard(id, propertyType, configInfo));
+            case "PAYMENT_CHARGE_CARD" -> setMonopolyCode(id, new PaymentCharge(id, propertyType, configInfo));
+            case "STREET" -> setMonopolyCode(id, new Street(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "TRANSPORT" -> setMonopolyCode(id, new Transport(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "SERVICE" -> setMonopolyCode(id, new Service(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
         }
     }
     
@@ -260,21 +262,21 @@ public class Game implements Serializable{
             textTerminal.showln("-> Dinero: " + player.getBalance());
             textTerminal.showln("|-PROPIEDADES SIN HIPOTECAR-|");
             for(Property property : player.getProperties()){
-                textTerminal.showln("-> Propiedad: [" + property.getId() + "] " + property.getName());
-                if(property instanceof Street){
-                    textTerminal.showln("--> Casas: " + ((Street) property).getBuiltHouses());
+                textTerminal.showln("---> Propiedad: [" + property.getId() + "] " + property.getName());
+                if(property instanceof Street street){
+                    textTerminal.showln("-> Casas: " + street.getBuiltHouses());
                 }
-                textTerminal.showln("--> Valor: " + property.getPrice());
-                textTerminal.showln("--> Valor hipoteca: " + property.getMortgageValue());
+                textTerminal.showln("-> Valor: " + property.getPrice());
+                textTerminal.showln("-> Valor hipoteca: " + property.getMortgageValue());
             }
             textTerminal.showln("|-PROPIEDADES HIPOTECADAS-|");
             for(Property property : player.getPropertiesMortaged()){
                 textTerminal.showln("Propiedad: [" + property.getId() + "] " + property.getName());
-                if(property instanceof Street){
-                    textTerminal.showln("--> Casas: " + ((Street) property).getBuiltHouses());
+                if(property instanceof Street street){
+                    textTerminal.showln("-> Casas: " + street.getBuiltHouses());
                 }
-                textTerminal.showln("--> Valor: " + property.getPrice());
-                textTerminal.showln("--> Valor hipoteca: " + property.getMortgageValue());
+                textTerminal.showln("-> Valor: " + property.getPrice());
+                textTerminal.showln("-> Valor hipoteca: " + property.getMortgageValue());
             }
             textTerminal.nextLine();
             textTerminal.showln("*******************************");

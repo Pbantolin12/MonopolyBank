@@ -27,13 +27,16 @@ public class GameManager {
         int opt;
         
         //Code
-        this.textTerminal =  TextTerminal.getInstance(); 
+        textTerminal = TextTerminal.getInstance();
         do{
             opt = askForGame(); 
             switch(opt){ 
                 case 1 -> askForResumeGame(); 
                 case 2 -> askForNewGame(); 
-                case 3 -> textTerminal.info("Saliendo...");
+                case 3 -> {
+                    textTerminal.info("Saliendo...");
+                    System.exit(0);
+                }
                 default -> textTerminal.error("Opcion incorrecta"); 
             }
         } while(opt < 1 || opt > 3);
@@ -104,7 +107,7 @@ public class GameManager {
             availableName = validateName(fileName);
             if(availableName == true){
                 //Cargar datos y crear jugadores
-                 this.game = new Game(this.textTerminal, fileName);
+                 this.game = new Game(fileName);
             } else{
                 textTerminal.error("Ya existe una partida con ese nombre o incluye caracteres no validos");
             }
@@ -140,8 +143,8 @@ public class GameManager {
         File file = new File(fileDir, fileName);
         try ( ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file))) {
            Object obj = objIn.readObject();
-           if(obj instanceof Game){
-               return (Game) obj;
+           if(obj instanceof Game game){
+               return game;
            } else {
             throw new IOException("El archivo no contiene un objeto de la clase Game");
             }

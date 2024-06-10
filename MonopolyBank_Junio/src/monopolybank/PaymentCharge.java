@@ -14,21 +14,22 @@ public class PaymentCharge extends MonopolyCode {
     private transient TextTerminal textTerminal;
     
     //Constructor
-    public PaymentCharge(int id, String desc, String configInfo, TextTerminal terminal) {
-        super(id, desc, configInfo, terminal);
+    public PaymentCharge(int id, String desc, String configInfo) {
+        super(id, desc, configInfo);
+        textTerminal = TextTerminal.getInstance();
         String[] splitInfo = configInfo.split(";"); //Separa la línea según los ";"
         this.amount = 0;
         List<Integer> amountList = searchAmount(splitInfo[2]);
         if(!amountList.isEmpty()){
             this.amount = amountList.get(0);
         }
-        this.textTerminal = terminal;
     }
     
     //Métodos
     
     //Realizar la operación
     public void doOperation(Player player){
+        textTerminal = TextTerminal.getInstance();
         this.showSummary(player, amount);
     }
     

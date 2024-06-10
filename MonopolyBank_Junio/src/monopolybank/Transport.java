@@ -8,11 +8,11 @@ public class Transport extends Property {
     private transient TextTerminal textTerminal;
 
     //Constructor
-    public Transport(int id, String desc, String configInfo, TextTerminal terminal, int price, boolean mortaged, int mValue) {
-        super(id, desc, configInfo, terminal, price, mortaged, mValue);
+    public Transport(int id, String desc, String configInfo , int price, boolean mortaged, int mValue) {
+        super(id, desc, configInfo, price, mortaged, mValue);
+        textTerminal = TextTerminal.getInstance();
         String[] splitInfo = configInfo.split(";"); //Separa la línea según los ";"
         this.costStaying = copyInfo(splitInfo);
-        this.textTerminal = terminal;
     }
     
     //Métodos
@@ -30,7 +30,7 @@ public class Transport extends Property {
     private int getNumberTransport(){
         int cont = 0;
         for(Property property : this.getOwner().getProperties()){
-            if(this.getClass().equals(property.getClass())){
+            if(property instanceof Transport){
                 cont++; 
             }
         }
@@ -39,12 +39,14 @@ public class Transport extends Property {
     
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberTransport() + 
             " estaciones. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
     }
     
     //Mostrar resumen de la compra
     private void showPurchaseSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
             player.getColor() + " por un importe de " + amount + " euros");
     }
@@ -53,7 +55,7 @@ public class Transport extends Property {
     private int[] copyInfo(String[] info){
         int[] auxArray = new int[4]; //Array auxiliar que rellenaremos con la información que necesitamos
         int i = -1;
-        for(int j = 3; j < 6; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
+        for(int j = 3; j <= 6; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
             auxArray[++i] = Integer.parseInt(info[j]); //Asignamos cada valor a cada posición del array
         }
         return auxArray;
@@ -64,9 +66,10 @@ public class Transport extends Property {
     public void doOperation(Player player){
         if(this.getOwner() == null){
             this.showPurchaseSummary(this.getPrice(), player);
-            player.pay(this.getPrice(), false);
-            player.setProperty(this);
-            this.setOwner(player);
+            if(player.pay(this.getPrice(), false)){
+                player.setProperty(this);
+                this.setOwner(player);
+            }
         } else if(this.getOwner().equals(player)){
             this.doOwnerOperations();
         } else if(!this.getMortgaged()){
@@ -83,6 +86,7 @@ public class Transport extends Property {
     //Realizar una operación de un propietario
      @Override
     public void doOwnerOperations(){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipotecar");
         textTerminal.showln("2.Deshipotecar");
         if(textTerminal.read() == 1 && !this.getMortgaged()){

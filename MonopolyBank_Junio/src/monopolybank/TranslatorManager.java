@@ -37,6 +37,6 @@ public class TranslatorManager {
         switch(option){
             case 1 -> currentIdiom = new Translator("Español");
             case 2 -> currentIdiom = new Translator("English");
-        };
+        }
     }
 }

@@ -11,10 +11,10 @@ public class MonopolyCode implements Serializable{
     private transient TextTerminal textTerminal;
     
     //Constructor
-    public MonopolyCode(int id, String desc, String configInfo, TextTerminal terminal){
+    public MonopolyCode(int id, String desc, String configInfo){
+        textTerminal = TextTerminal.getInstance();
         this.id = id;
         this.description = desc;
-        this.textTerminal = terminal;
     }
     
     //Métodos

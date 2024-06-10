@@ -28,13 +28,13 @@ Error al guardar el juego;Error when saving the game
 -> Nombre: ;-> Name: 
 -> Dinero: ;-> Money: 
 |-PROPIEDADES SIN HIPOTECAR-|;|-PROPERTIES WITHOUT MORTGAGE-|
--> Propiedad: [;-> Property: [
---> Casas: ;-> Houses: 
---> Valor: ;--> Value: 
---> Valor hipoteca: ;--> Mortgage value: 
+---> Propiedad: [;---> Property: [
+-> Casas: ;-> Houses: 
+-> Valor: ;-> Value: 
+-> Valor hipoteca: ;-> Mortgage value: 
 |-PROPIEDADES HIPOTECADAS-|;|-MORTGAGED PROPERTIES-|
 Propiedad: [;Property: [
-|_Bienvenido_a_MonopolyBank_|;|__Wellcome_a_MonopolyBank__|
+|_Bienvenido_a_MonopolyBank_|;|_Wellcome_to_MonopolyBank__|
 | 1.Cargar partida guardada |;| 1.Load saved game         |
 | 2.Crear nueva partida     |;| 2.Create new game         |
 | 3.Salir                   |;| 3.Exit                    |
@@ -90,3 +90,10 @@ Propiedad hipoteceada no se permite esta accion;Hypothetical property is not all
 >>Introduzca el numero de casas que deseas comprar: ;>>Enter the number of houses you want to buy: 
 >>Introduzca el numero de casas que deseas vender: ;>>Enter the number of houses you want to sell: 
  estaciones. Por ello, pagara ; stations. For this, you will pay ;
+Dinero insuficiente, se van a hipotecar propiedades;Insufficient money, properties will be mortgaged
+esta en bancarrota; is bankrupt
+La propiedad esta hipotecada;The property is mortgaged
+La propiedad no pertenece al jugador;The property does not belong to the player
+Esta propiedad no puede tener casas;This property cannot have houses
+1.Vender;1.Sell
+No hay suficientes casas para vender;Not enough houses to sell

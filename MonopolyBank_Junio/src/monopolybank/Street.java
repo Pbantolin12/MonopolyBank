@@ -10,10 +10,10 @@ public class Street extends Property {
     private transient TextTerminal textTerminal;
     
     //Constructor
-    public Street(int id, String desc, String configInfo, TextTerminal terminal, int price, boolean mortaged, int mValue) {
-        super(id, desc, configInfo, terminal, price, mortaged, mValue);
+    public Street(int id, String desc, String configInfo , int price, boolean mortaged, int mValue) {
+        super(id, desc, configInfo, price, mortaged, mValue);
+        textTerminal = TextTerminal.getInstance();
         String[] splitInfo = configInfo.split(";"); //Separa la línea según los ";"
-        this.textTerminal = terminal;
         this.builtHouses = 0;
         this.housePrice = Integer.parseInt(splitInfo[9]);
         this.costStayingWithHouses = copyInfo(splitInfo);
@@ -25,6 +25,7 @@ public class Street extends Property {
     //Obtener el valor del alquiler a pagar
     @Override
     public int getPaymentForRent(){
+        textTerminal = TextTerminal.getInstance();
         for(Property property:this.getOwner().getProperties()){
             if(this.equals(property) && this.getBuiltHouses() >= 0 && !property.getMortgaged()){
                 return this.costStayingWithHouses[this.getBuiltHouses()];
@@ -37,19 +38,25 @@ public class Street extends Property {
     
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getBuiltHouses() + 
                 " casas. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());
     }
     
     //Mostrar resumen de la compra de una propiedad
     private void showPurchaseSummary(int amount, Player player){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
                 player.getColor() + " por un importe de " + amount + " euros");
     }
     
     //Mostrar resumen de la compra o venta de casas
     private void showHousePurchaseSummary(int amount, Player player, int nHouses){
+        //Local var
         String numberHouses;
+        
+        //Code
+        textTerminal = TextTerminal.getInstance();
         numberHouses = switch (nHouses) {
             case 2, -2 -> "dos";
             case 3, -3 -> "tres";
@@ -62,7 +69,7 @@ public class Street extends Property {
                 player.getColor() + " por un importe de " + amount + " euros");
         } else{
             textTerminal.showln("Se va a realizar la venta de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador " + 
-                player.getColor() + " por un importe de " + Math.abs(amount) + " euros");
+                player.getColor() + " por un importe de " + amount + " euros");
         }
    }
     
@@ -77,30 +84,50 @@ public class Street extends Property {
     }
     
     //Establecemos las casas de la propiedad
-    public void setBuiltHouses(Player player, int number){
-        if(!this.getMortgaged()){
-            if(number >= 0){
+    public void setBuiltHouses(int number){
+        this.builtHouses += number;
+    }
+    
+    //Comprar casas
+    public void buyHouses(Player player, int number){
+        textTerminal = TextTerminal.getInstance();
+        if(this.getOwner().equals(player)){
+            if(!this.getMortgaged()){
                 if(this.getBuiltHouses() + number <= 5){
                     showHousePurchaseSummary(this.getHousePrice() * number, player, number);
-                    player.pay(this.getBuiltHouses(), false);
-                    this.builtHouses += number;  
+                    player.pay(this.getHousePrice() * number, false);
+                    setBuiltHouses(number);  
                 } else{
                     textTerminal.error("Demasiadas casas para edificar");
-                }
-            } else if(number < 0){
-                if(this.getBuiltHouses() + number >= 0){
-                    showHousePurchaseSummary(this.getHousePrice() * Math.abs(number), player, number);
-                    player.setBalance(this.getHousePrice());
-                    this.builtHouses += number; 
-                } else{
-                    textTerminal.error("No hay tantas casas edificadas");
-                }
+                }       
+            } else{
+                textTerminal.error("La propiedad esta hipotecada");
             }
-        }
-        else{
-            textTerminal.error("Propiedad hipoteceada no se permite esta accion");
+        } else{
+            textTerminal.error("La propiedad no pertenece al jugador");
         }
     }
+    
+    //Vender casas
+    public void sellHouses(Player player, int number){
+        textTerminal = TextTerminal.getInstance();
+        if(this.getOwner().equals(player)){
+            if(!this.getMortgaged()){
+                if(this.getBuiltHouses() - number >= 0){
+                    showHousePurchaseSummary(this.getHousePrice() * number, player, -number);
+                    player.sell(this, number);
+                    setBuiltHouses(-number);
+                } else{
+                    textTerminal.error("No hay suficientes casas para vender");
+                }       
+            } else{
+                textTerminal.error("La propiedad esta hipotecada");
+            }
+        } else{
+            textTerminal.error("La propiedad no pertenece al jugador");
+        }
+    }
+    
     
     //Copiamos la información a un array de enteros
     private int[] copyInfo(String[] info){
@@ -109,7 +136,7 @@ public class Street extends Property {
         int i = -1;
         
         //Code
-        for(int j = 3; j < 8; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
+        for(int j = 3; j <= 8; j++){ //Recorremos el array de información en las posiciones específica dónde se encuentra la información
             auxArray[++i] = Integer.parseInt(info[j]); //Asignamos cada valor a cada posición del array
         }
         return auxArray;
@@ -141,6 +168,7 @@ public class Street extends Property {
     //Realizar una operación de un propietario
     @Override
     public void doOwnerOperations(){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipoteca");
         textTerminal.showln("2.Comprar casas");
         textTerminal.showln("3.Vender casas");
@@ -165,13 +193,12 @@ public class Street extends Property {
             }
             case 2 -> {
                 textTerminal.show(">>Introduzca el numero de casas que deseas comprar: ");
-                this.setBuiltHouses(this.getOwner(), textTerminal.read());
+                this.buyHouses(this.getOwner(), textTerminal.read());
             }
             case 3 -> {
-               
                 textTerminal.show(">>Introduzca el numero de casas que deseas vender: ");
-                int nHouses = textTerminal.read() * -1;
-                this.setBuiltHouses(this.getOwner(), nHouses);
+                int nHouses = textTerminal.read();
+                this.sellHouses(this.getOwner(), nHouses);
             }
             default -> textTerminal.error("Opcion incorrecta");
         }

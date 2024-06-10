@@ -10,5 +10,4 @@ public class MonopolyBank {
         GameManager gameManager = new GameManager();
         gameManager.start();
     }
-    
 }

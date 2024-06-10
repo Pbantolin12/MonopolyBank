@@ -12,15 +12,14 @@ public class RepairsCard extends MonopolyCode {
     //Atributos
     private int amountForHouse;
     private int amountForHotel;
-    private transient TextTerminal textTerminal;
+    private transient TextTerminal textTerminal = TextTerminal.getInstance();;
     
     //Constructor    
-    public RepairsCard(int id, String desc, String configTextLine, TextTerminal terminal) {
-        super(id, desc, configTextLine, terminal);
+    public RepairsCard(int id, String desc, String configTextLine) {
+        super(id, desc, configTextLine);
         String[] splitInfo = configTextLine.split(";"); //Separa la línea según los ";"
         this.amountForHouse = searchAmount(splitInfo[2]).get(0);
         this.amountForHotel = searchAmount(splitInfo[2]).get(1);
-        this.textTerminal = terminal;
     }
     
     //Métodos
@@ -55,8 +54,8 @@ public class RepairsCard extends MonopolyCode {
         
         //Code
         for(Property property : player.getProperties()){
-            if(property instanceof Street){
-                if(((Street) property).getBuiltHouses() == 5){
+            if(property instanceof Street street){
+                if(street.getBuiltHouses() == 5){
                    hotels++;
                 }
             }
@@ -66,6 +65,7 @@ public class RepairsCard extends MonopolyCode {
     
     //Mostrar resumen
     public void showSummary(Player player, int amount){
+        textTerminal = TextTerminal.getInstance();
         textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + amount + " euros");
         player.setBalance(-amount);
     }

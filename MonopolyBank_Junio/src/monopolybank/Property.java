@@ -13,22 +13,25 @@ public class Property extends MonopolyCode {
     private transient TextTerminal textTerminal;
     
     //Constructor
-    public Property(int id, String desc, String configInfo, TextTerminal terminal, int price, boolean mortaged, int mValue) {
-        super(id, desc, configInfo, terminal);
+    public Property(int id, String desc, String configInfo, int price, boolean mortaged, int mValue) {
+        super(id, desc, configInfo);
+        textTerminal = TextTerminal.getInstance();
         this.price = price;
         this.mortaged = mortaged;
         this. mortgageValue = mValue;
         this.propertyType = desc;
         this.configTextLine = configInfo;
-        this.textTerminal = terminal;
     }
     
     //Métodos
     
     //Obtener lo que tiene que pagar el jugador de alquiler
     public int getPaymentForRent(){
+        //Local var
         int cont = 0;
         
+        //Code
+        textTerminal = TextTerminal.getInstance();
         textTerminal.show(">>Introduce el numero marcado en los dados: ");
         int num = textTerminal.read();
         for(Property property: this.getOwner().getProperties()){
@@ -37,14 +40,17 @@ public class Property extends MonopolyCode {
             }
         }
         switch(cont){
-            case 1:
+            case 1 -> {
                 return 4*num;
-            case 2:
+            }
+            case 2 -> {
                 return 10*num;
-            default:
+            }
+            default -> {
                 textTerminal.error("La propiedad no pertenece al jugador");
                 textTerminal.info("Operacion cancelada");
                 return 0;
+            }
         }
     }
     
