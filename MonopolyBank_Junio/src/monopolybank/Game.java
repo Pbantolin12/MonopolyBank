@@ -17,36 +17,35 @@ import java.util.Set;
 public class Game implements Serializable{
     
     //Atributos
-    private transient TextTerminal textTerminal;
-    private String configMonopolyDir = "..\\config\\MonopolyCode.txt";
-    private String fileDir = "..\\config\\oldGames\\";
-    private Map<Integer, Player> playerList;
-    private HashMap<Integer, MonopolyCode> idTypeMap;
-    private String fileName;
+    private transient TextTerminal textTerminal; //Terminal para la interacción con el usuario
+    private String configMonopolyDir = "..\\config\\MonopolyCode.txt"; //Ruta del archivo de configuración
+    private String fileDir = "..\\config\\oldGames\\"; //Directorio donde se guardan las partidas
+    private Map<Integer, Player> playerList; //Mapa que almacena los jugadores
+    private HashMap<Integer, MonopolyCode> idTypeMap; //Mapa que almacena las cartas del juego
+    private String fileName; //Nombre del archivo de la partida
     private FreeParking parking; //Modificación 2
     
     //Constructor
     public Game(String fileName) throws FileNotFoundException, IOException{
-        textTerminal = TextTerminal.getInstance();
-        this.idTypeMap = new HashMap<>();
-        this.playerList = new HashMap<>();
-        this.fileName = fileName;
-        this.fileDir = this.fileDir.concat(this.fileName);
-        createPlayers();
-        readFile();
-        save();
+        textTerminal = TextTerminal.getInstance(); //Obtiene la instancia del terminal
+        this.idTypeMap = new HashMap<>(); //Inicializa el mapa de cartas
+        this.playerList = new HashMap<>(); //Inicializa el mapa de jugadores
+        this.fileName = fileName; //Asigna el nombre del archivo de la partida
+        this.fileDir = this.fileDir.concat(this.fileName); //Completa la ruta del archivo
+        createPlayers(); //Crea los jugadores
+        readFile(); //Lee el archivo de configuración
+        save(); //Guarda la partida
     }
     
     //Métodos
     
+    //Método principal del juego
     public void play() throws IOException{
-        //Local var
-        int option = 0;
+        int option = 0; //Opción del menú
         
-        //Code
-        textTerminal = TextTerminal.getInstance();
-        while(playerList.size() > 1 && option != 3){
-            textTerminal.nextLine();
+        textTerminal = TextTerminal.getInstance(); //Obtiene la instancia del terminal
+        while(playerList.size() > 1 && option != 3) { //Mientras haya más de un jugador y no se seleccione la opción de salir
+            textTerminal.nextLine(); 
             textTerminal.showln(" ____________________________________");
             textTerminal.showln("|________ACCIONES_DISPONIBLES________|");
             textTerminal.showln("| 1.Introducir codigo de la tarjeta  |");
@@ -63,61 +62,59 @@ public class Game implements Serializable{
                     textTerminal.show(">>Introduzca el codigo de jugador: ");
                     int playerCode = textTerminal.read(); 
                     Player player = this.playerList.get(playerCode); 
-                    if(player.getBankrupt()){
-                        this.removePlayer(player);
+                    if(player.getBankrupt()) { //Si el jugador está en bancarrota
+                        this.removePlayer(player); //Elimina al jugador
                     } else{
-                        if(card instanceof PaymentCharge paymentCard){
-                            paymentCard.doOperation(player, parking);
-                        }else{
-                            card.doOperation(player);
-                            save();
+                        if(card instanceof PaymentCharge paymentCard) {
+                            paymentCard.doOperation(player, parking); //Realiza la operación de la tarjeta de pago
+                        } else{
+                            card.doOperation(player); //Realiza la operación de la carta
+                            save(); //Guarda la partida
                         }
                     }
                 }
-                case 2 -> this.showGameState();
-                case 3 -> {
-                    save();
+                case 2 -> this.showGameState(); //Muestra el estado del juego
+                case 3 ->{
+                    save(); //Guarda la partida
                     textTerminal.info("Saliendo...");
-                    System.exit(0);
+                    System.exit(0); //Sale del juego
                 }
                 default -> textTerminal.error("Opcion incorrecta");
             }
         } 
     }
     
-    //Crear los jugadores
+    //Crea los jugadores
     private void createPlayers(){
-        //Local var
         int nPlayers;
         Scanner scan = new Scanner(System.in);
         String selectedColors;
         boolean repeated = true;
         
-        //Code
-        do{
+        do {
             textTerminal.show(">>Introduzca el numero de jugadores: ");
             nPlayers = textTerminal.read();
-            if(nPlayers < 2 || nPlayers > 4){
+            if(nPlayers < 2 || nPlayers > 4) {
                 textTerminal.error("El numero de jugadores introducidos no es correcto");
-            } else{
-                do{
+            } else {
+                do {
                     textTerminal.nextLine();
                     textTerminal.showln("Colores disponibles: ");
-                    for(Color colorAux:Color.values()){
+                    for(Color colorAux : Color.values()) {
                         textTerminal.showln(colorAux.toString());
                     }
                     textTerminal.show(">>Introduzca la primera letra de cada color: ");
                     selectedColors = scan.nextLine();
                     selectedColors = clearString(selectedColors);
-                    if(selectedColors.length() != nPlayers){
+                    if(selectedColors.length() != nPlayers) {
                         textTerminal.error("El numero de colores elegido no es correcto");
-                    } else{
+                    } else {
                         repeated = charRepeated(selectedColors); 
-                        if (repeated){
+                        if(repeated) {
                             textTerminal.error("Hay colores repetidos");
-                        } else{
-                            for(char colorLetter:selectedColors.toCharArray()){  
-                                switch(colorLetter){
+                        } else {
+                            for(char colorLetter : selectedColors.toCharArray()) {  
+                                switch(colorLetter) {
                                     case 'r', 'R' -> {
                                         textTerminal.info("Creando nuevo jugador [rojo] --> Id: 1");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
@@ -137,7 +134,6 @@ public class Game implements Serializable{
                                         playerList.put(3, new Player(3, nameP, Color.azul));
                                     }
                                     case 'n', 'N' -> {
-                                       
                                         textTerminal.info("Creando nuevo jugador [negro] --> Id: 4");
                                         textTerminal.show(">>Introduzca el nombre del jugador: ");
                                         String nameP = scan.nextLine();
@@ -152,28 +148,28 @@ public class Game implements Serializable{
         } while(nPlayers < 2 || nPlayers > 4);
     }
     
-    //Tratamos el string introducido por el usuario
+    //Elimina espacios y comas de la cadena
     private String clearString(String str){
-        str = str.replace(" ", ""); //Eliminamos los posibles espacios
-        str = str.replace(",", ""); //Eliminamos las posibles comas
+        str = str.replace(" ", ""); //Elimina espacios
+        str = str.replace(",", ""); //Elimina comas
         return str;
     }
     
-    //Comprobamos que no se repiten letras
+    //Comprueba que no haya letras repetidas
     private boolean charRepeated(String text){ 
         //Local var
         Set<Character> aux = new HashSet<>(); 
        
         //Code
-        for(char character:text.toCharArray()){ 
+        for(char character : text.toCharArray()){ 
             if(!aux.contains(character)) 
-               aux.add(character);
+                aux.add(character);
             else return true; 
         }
         return false;
     }
     
-    //Cargar las cartas y propiedades 
+    //Carga las cartas y propiedades del juego
     private void loadMonopolyCodes(String configInfo){
         //Local var
         String propertyType = getCodeClass(configInfo);
@@ -189,45 +185,45 @@ public class Game implements Serializable{
                     getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
             case "SERVICE" -> setMonopolyCode(id, new Service(id, propertyType, configInfo, 
                     getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
-            case "FREEPARKING" -> { //Modificación 2
+            case "FREEPARKING" ->{ //Modificación 2
                     this.parking = new FreeParking(id, propertyType, configInfo);
                     setMonopolyCode(id,  parking);
             }   
         }
     }
     
-    //Dividimos el string separado por ';' y los devolvemos como un array de string
+    //Divide la cadena de configuración y la devuelve como un array de strings
     private String[] splitConfigInfo(String cInfo){
         return cInfo.split(";"); //Separa la línea según los ";"
     }
     
-    //Obtenemos el tipo de carta
+    //Obtiene el tipo de carta
     private String getCodeClass(String line){
         return splitConfigInfo(line)[1];
     }
     
-    //Obtenemos el id de la carta
+    //Obtiene el id de la carta
     private int getId(String line){
         return Integer.parseInt(splitConfigInfo(line)[0]);
     }
     
-    //Obtenemos el precio de la hipoteca
+    //Obtiene el valor de la hipoteca
     private int getMortageValue(String line){
         String[] lineArray =  splitConfigInfo(line);
         return Integer.parseInt(lineArray[lineArray.length - 1]);
     }
     
-    //Obtenemos le precio
+    //Obtiene el precio de la propiedad
     private int getPrice(int mortageValue){
         return mortageValue * 2; //El precio de una carta es el doble de su hipoteca
     }
     
-    //Añadimos el id y la carta al mapa de las cartas del juego
+    //Añade la carta al mapa de cartas del juego
     public void setMonopolyCode(int id, MonopolyCode mCode){
         idTypeMap.put(id, mCode);
     }
     
-    //Eliminar jugador
+    //Elimina un jugador
     private void removePlayer(Player player){
         if(player.getBankrupt()){
             this.playerList.remove(player.getId());
@@ -238,10 +234,10 @@ public class Game implements Serializable{
         }
     }
     
-    //Lee el archivo y proporciona líneas a loadMonopolyCodes()
+    //Lee el archivo de configuración
     private void readFile() throws FileNotFoundException{
         //Local var
-        File fileToRead = new File(configMonopolyDir); //Archivo del que leemos la información
+        File fileToRead = new File(configMonopolyDir); //Archivo del que se lee la información
         Scanner scan = new Scanner(fileToRead);
         String line;
         
@@ -252,15 +248,16 @@ public class Game implements Serializable{
         }
     }
     
-    //Guardamos la partida
-    private void save() throws IOException {
-        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileDir))) {
+    //Guarda la partida
+    private void save() throws IOException{
+        try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileDir))){
             out.writeObject(this);
         } catch(IOException saveError){
             throw new IOException("Error al guardar el juego", saveError);
         }
     }
     
+    //Muestra el estado del juego
     private void showGameState(){
         textTerminal.showln(" _____________________________");
         textTerminal.showln("|____RESUMEN DE LA PARTIDA____|");

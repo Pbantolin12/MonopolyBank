@@ -1,6 +1,6 @@
 
 package monopolybank;
 
-public enum Color {
+public enum Color{
     rojo, verde, azul, negro;
 }

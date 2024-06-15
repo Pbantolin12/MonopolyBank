@@ -3,7 +3,7 @@ package monopolybank;
 
 import java.util.Scanner;
 
-public class Terminal {
+public class Terminal{
  
     //Atributos
     

@@ -69,8 +69,8 @@ Se va a realizar la compra de la propiedad ;It will make the purchase of the pro
  por un importe de ; for an amount of 
 1.Hipotecar;1.Mortgage
 2.Deshipotecar;2.Demortgage
-Esta propiedad esta hipotecada;This property is mortgaged
-Esta propiedad no esta hipotecada;This property is not mortgaged
+La propiedad esta hipotecada;This property is mortgaged
+La propiedad no esta hipotecada;This property is not mortgaged
  casas. Por ello, pagara ; houses. For this, you will pay 
  al jugador ; the player 
 dos;two

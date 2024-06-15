@@ -6,15 +6,15 @@ import java.io.Serializable;
 public class MonopolyCode implements Serializable{
     
     //Atributos
-    private String description;
-    private int id;
-    private transient TextTerminal textTerminal;
+    private String description; //Descripción del código
+    private int id; //Identificador del código
+    private transient TextTerminal textTerminal; //Terminal para la interacción con el usuario
     
     //Constructor
     public MonopolyCode(int id, String desc, String configInfo){
-        textTerminal = TextTerminal.getInstance();
-        this.id = id;
-        this.description = desc;
+        textTerminal = TextTerminal.getInstance(); //Obtiene la instancia del terminal
+        this.id = id; //Inicializa el identificador
+        this.description = desc; //Inicializa la descripción
     }
     
     //Métodos

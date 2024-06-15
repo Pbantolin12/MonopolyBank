@@ -3,14 +3,13 @@ package monopolybank;
 
 import java.util.Scanner;
 
-public class TranslatorManager {
+public class TranslatorManager{
     
     //Atributos
     private Translator currentIdiom;
     
     //Constructor
-    public TranslatorManager(){
-    }
+    public TranslatorManager(){}
     
     //Métodos
     

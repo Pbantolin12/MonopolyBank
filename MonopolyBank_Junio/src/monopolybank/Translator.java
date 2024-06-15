@@ -12,18 +12,18 @@ import java.util.logging.Logger;
 public class Translator {
     
     //Atributos
-    private Map<String, String> dictionary;
-    private String language;
+    private Map<String, String> dictionary; //Mapa dónde se guardarán las traducciones
+    private String language; //Idioma actual
     private String fileDir = "..\\config\\languages\\";
     
     //Métodos
     
     //Constructor
     public Translator(String fileName){ 
-        this.dictionary = new HashMap<>();
-        this.language = fileName;
+        this.dictionary = new HashMap<>(); //Inicializamos el mapa
+        this.language = fileName; 
         try {
-            readFile(fileName);
+            readFile(fileName); //Leemos el archivo de traducción
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Translator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -31,7 +31,7 @@ public class Translator {
     
     //Traducimos el texto
     public String translate(String text){
-        return this.dictionary.getOrDefault(text, text);
+        return this.dictionary.getOrDefault(text, text); //Devolvemos el texto traducido, en el caso de no encontrarlo, devolvemos el texto inicial
     }
     
     //Lee el archivo y proporciona líneas a loadMonopolyCodes()

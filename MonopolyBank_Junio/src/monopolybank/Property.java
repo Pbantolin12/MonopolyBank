@@ -4,29 +4,27 @@ package monopolybank;
 public class Property extends MonopolyCode {
     
     //Atributos
-    private int price;
-    private boolean mortaged;
-    private int mortgageValue;
-    private String propertyType;
-    private Player owner;
-    private String configTextLine;
-    private transient TextTerminal textTerminal;
+    private int price; //Precio 
+    private boolean mortgaged; //Estado de la hipoteca
+    private int mortgageValue; //Valor de la hipoteca
+    private Player owner; //Jugador propietario
+    private String configTextLine; //Texto de configuración
     
     //Constructor
-    public Property(int id, String desc, String configInfo, int price, boolean mortaged, int mValue) {
+    public Property(int id, String desc, String configInfo, int price, boolean mortgaged, int mortgageValue) {
         super(id, desc, configInfo);
-        textTerminal = TextTerminal.getInstance();
         this.price = price;
-        this.mortaged = mortaged;
-        this. mortgageValue = mValue;
-        this.propertyType = desc;
+        this.mortgaged = mortgaged;
+        this.mortgageValue = mortgageValue;
         this.configTextLine = configInfo;
     }
     
     //Métodos
     
     //Obtener lo que tiene que pagar el jugador de alquiler
-    public int getPaymentForRent(){return 0;}
+    public int getPaymentForRent(){
+        return 0; //Implementar lógica según las reglas del juego
+    }
       
     //Obtener el propietario
     public Player getOwner(){
@@ -38,14 +36,14 @@ public class Property extends MonopolyCode {
         this.owner = player;
     }
     
-    //Obtener el estado de la propiedad (hipoecada o no)
+    //Obtener el estado de la propiedad (hipotecada o no)
     public boolean getMortgaged(){
-        return this.mortaged;
+        return this.mortgaged;
     }
     
     //Cambiar el estado de la propiedad
     public void setMortgaged(boolean state){
-        this.mortaged = state;
+        this.mortgaged = state;
     }
     
     //Obtener el valor de la hipoteca
@@ -64,17 +62,18 @@ public class Property extends MonopolyCode {
     }
     
     //Realizar las operaciones de un propietario
-    public void doOwerOperations(){}
+    public void doOwnerOperations(){
+        //Implementar acciones específicas para el propietario
+    }
     
     //Mostrar resumen
-    public void showSummary(){}
+    public void showSummary(){
+        //Implementar cómo se muestra un resumen de la propiedad
+    }
     
     //Obtener el nombre de la propiedad
     public String getName(){
-        String[] splitInfo = this.configTextLine.split(";"); //Separa la línea según los ";"
-        return splitInfo[2];
+        String[] splitInfo = this.configTextLine.split(";"); //Separar la línea según los ";"
+        return splitInfo[2]; //Suponiendo que el nombre se encuentra en el índice 2
     }
-    
-    //Realizar las operaciones de un propietario
-    public void doOwnerOperations(){}
 }

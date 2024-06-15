@@ -4,17 +4,17 @@ package monopolybank;
 public class Street extends Property {
     
     //Atributos 
-    private int builtHouses;
-    private int housePrice;
-    private int[] costStayingWithHouses;
-    private transient TextTerminal textTerminal;
+    private int builtHouses; //Casas construidas
+    private int housePrice; //Precio de una casa
+    private int[] costStayingWithHouses; //Precio del alquiler dependiendo de las casas que tenga 
+    private transient TextTerminal textTerminal; //Terminal para interacción con el usuario
     
     //Constructor
     public Street(int id, String desc, String configInfo , int price, boolean mortaged, int mValue) {
         super(id, desc, configInfo, price, mortaged, mValue);
         textTerminal = TextTerminal.getInstance();
         String[] splitInfo = configInfo.split(";"); //Separa la línea según los ";"
-        this.builtHouses = 0;
+        this.builtHouses = 0; //Inicialmente no hay casas construidas
         this.housePrice = Integer.parseInt(splitInfo[9]);
         this.costStayingWithHouses = copyInfo(splitInfo);
     }
@@ -73,11 +73,11 @@ public class Street extends Property {
             default -> "una";
         };
         if(nHouses >= 0){
-            textTerminal.showln("Se va a realizar la compra de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador " + 
-                player.getColor() + " por un importe de " + amount + " euros");
+            textTerminal.showln("Se va a realizar la compra de " + numberHouses + " casa para la propiedad " + 
+                    this.getName() + " por parte del jugador " +  player.getColor() + " por un importe de " + amount + " euros");
         } else{
-            textTerminal.showln("Se va a realizar la venta de " + numberHouses + " casa para la propiedad " + this.getName() + " por parte del jugador " + 
-                player.getColor() + " por un importe de " + amount + " euros");
+            textTerminal.showln("Se va a realizar la venta de " + numberHouses + " casa para la propiedad " + 
+                    this.getName() + " por parte del jugador " + player.getColor() + " por un importe de " + amount + " euros");
         }
    }
     
@@ -168,7 +168,8 @@ public class Street extends Property {
                     this.getOwner().setBalance(this.getPaymentForRent());
                 }
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " que esta hipotecada, por lo que no pagara nada");  
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + 
+                    " que esta hipotecada, por lo que no pagara nada");  
         }
     }
     

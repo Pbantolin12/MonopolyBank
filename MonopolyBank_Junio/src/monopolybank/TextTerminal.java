@@ -1,6 +1,7 @@
+
 package monopolybank;
 
-public class TextTerminal extends Terminal {
+public class TextTerminal extends Terminal{
     
     /*Como textTerminal no se puede guardar con la partida, puede haber errores al cargarla, 
     ya que textTerminal es nulo, por lo que vamos a aplicar el patroón Singleton para no 
@@ -8,7 +9,7 @@ public class TextTerminal extends Terminal {
     
     //Atributos
     private static TextTerminal instance = new TextTerminal(); //Instancia única
-    private Translator translator;
+    private Translator translator; //Traductor
     
     //Constructor
     private TextTerminal(){ 

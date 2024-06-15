@@ -6,24 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Serializable{
-    
+
     //Atributos
-    private Color color;
-    private String name;
-    private int balance;
-    private boolean bankrupt;
-    private int id;
-    private transient TextTerminal textTerminal;
+    private Color color; //Color del jugador
+    private String name; //Nombre del jugador
+    private int balance; //Balance del jugador
+    private boolean bankrupt; //Estado de bancarrota del jugador
+    private int id; //ID del jugador
+    private transient TextTerminal textTerminal; //Terminal para la interacción con el usuario
     private List<Property> propertiesOwned; //Lista de propiedades adquiridas
     private List<Property> propertiesMortaged; //Lista de propiedades hipotecadas
     
     //Constructor
-    public Player(int id , String name, Color color){
-        textTerminal = TextTerminal.getInstance();
+    public Player(int id, String name, Color color){
+        textTerminal = TextTerminal.getInstance(); //Obtiene la instancia del terminal
         this.id = id;
         this.name = name;
         this.color = color;
-        this.balance = 1500;
+        this.balance = 1500; //Balance inicial del jugador
         this.bankrupt = false;
         this.propertiesOwned = new ArrayList<>();
         this.propertiesMortaged = new ArrayList<>();
@@ -55,20 +55,20 @@ public class Player implements Serializable{
                 textTerminal.showln("2.Cancelar");
                 textTerminal.show(">>Introduzca una opcion: ");
                 switch(textTerminal.read()){
-                    case 1 -> {
+                    case 1 ->{
                         this.balance -= amount;
                         return true;
                     }
-                    case 2 -> {
+                    case 2 ->{
                         textTerminal.info("Operacion cancelada");
                         return false;
                     }
                 }
-            } else {
+            } else{
                 textTerminal.showln("No hay suficiente dinero para pagar");
                 return false;
             }
-        } else{ //pago obligatorio
+        } else{ //Pago obligatorio
             if(amount <= this.balance){
                 this.balance -= amount;
                 return true;
@@ -104,7 +104,7 @@ public class Player implements Serializable{
         return false;
     }
     
-    //Mostrar las propiedades que  tiene el jugador
+    //Mostrar las propiedades que tiene el jugador
     private void showProperties(){
         textTerminal = TextTerminal.getInstance();
         textTerminal.showln("LISTA DE PROPIEDADES");
@@ -131,19 +131,19 @@ public class Player implements Serializable{
                 textTerminal.showln("2.Cancelar");
                 textTerminal.show(">>Introduzca una opcion: ");
                 switch(textTerminal.read()){
-                    case 1 -> {
+                    case 1 ->{
                         textTerminal.show(">>Introduzca el numero de casas que desea vender (disponibles " + street.getBuiltHouses() + "): ");
                         int nHousesSell = textTerminal.read();
                         street.sellHouses(this, nHousesSell);
                     }
-                    case 2 -> {
+                    case 2 ->{
                         textTerminal.info("Operacion cancelada");
                     }
                 }
             } else{
                 textTerminal.error("La propiedad no pertenece al jugador");
             }
-        } else {
+        } else{
             while(this.balance < 0 && thereAreHouseToSell()){
                 this.showProperties();   
                 textTerminal.show(">>Introduce el id de la propiedad: ");
@@ -167,6 +167,8 @@ public class Player implements Serializable{
     private boolean thereAreHouseToSell(){
         //Local var
         int nPropertyHasHouses = 0;
+        
+        //Code
         for(Property property : this.propertiesOwned){
             if(property instanceof Street street){
                 if(street.getBuiltHouses() > 0){
@@ -177,13 +179,12 @@ public class Player implements Serializable{
         return nPropertyHasHouses != 0;
     }
     
-    
-    //Buscamos la propiedad en la lista de propiedades en posesión
+    //Buscar la propiedad en la lista de propiedades en posesión
     private Property searchProperty(int id){
         for(Property property : this.propertiesOwned){
-                if(property.getId() == id){
-                    return property;
-                }
+            if(property.getId() == id){
+                return property;
+            }
         }
         return null;
     }
@@ -193,12 +194,12 @@ public class Player implements Serializable{
         return this.propertiesOwned;
     }
     
-    //Obtenemos las propiedades hipotecadas
-     public List<Property> getPropertiesMortaged(){
+    //Obtener las propiedades hipotecadas
+    public List<Property> getPropertiesMortaged() {
         return this.propertiesMortaged;
     }
     
-    //Transpasar propiedades entre jugadores
+    //Traspasar propiedades entre jugadores
     public void traspaseProperties(Player newOwner, Property property){
         this.propertiesOwned.remove(property);
         property.setOwner(newOwner);
@@ -255,8 +256,8 @@ public class Player implements Serializable{
         this.propertiesOwned.remove(property);
         this.propertiesMortaged.add(property);
         this.balance += property.getMortgageValue();
-        textTerminal.info(property.getName() + "ha sido hipotecado");
-        textTerminal.info("Ingresados " + property.getMortgageValue() + "euros");
+        textTerminal.info(property.getName() + " ha sido hipotecado");
+        textTerminal.info("Ingresados " + property.getMortgageValue() + " euros");
     }
     
     //Aceptar venta de una casa

@@ -1,11 +1,11 @@
 
 package monopolybank;
 
-public class Transport extends Property {
+public class Transport extends Property{
     
     //Atributos
-    private int[] costStaying;
-    private transient TextTerminal textTerminal;
+    private int[] costStaying; //Precio del alquiler dependiendo del número de estaciones que el jugador tenga
+    private transient TextTerminal textTerminal; //Terminal para interacción con el usuario
 
     //Constructor
     public Transport(int id, String desc, String configInfo , int price, boolean mortaged, int mValue) {
@@ -21,7 +21,7 @@ public class Transport extends Property {
     @Override
     public int getPaymentForRent(){
         if(this.getNumberTransport() >= 0){
-            if(this.getMortgaged()){
+            if(this.getMortgaged()){ //Modificación 2
                 return (int) Math.round(this.costStaying[this.getNumberTransport()] * 0.3);
             } else{
                 return this.costStaying[this.getNumberTransport()];
