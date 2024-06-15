@@ -12,6 +12,7 @@ public class PaymentCharge extends MonopolyCode {
     //Atributos
     private int amount;
     private transient TextTerminal textTerminal;
+    private int deposit; //Modificación 2 (parking gratuito)
     
     //Constructor
     public PaymentCharge(int id, String desc, String configInfo) {
@@ -23,23 +24,25 @@ public class PaymentCharge extends MonopolyCode {
         if(!amountList.isEmpty()){
             this.amount = amountList.get(0);
         }
+        this.deposit = 0;
     }
     
     //Métodos
     
     //Realizar la operación
-    public void doOperation(Player player){
+    public void doOperation(Player player, FreeParking parking){
         textTerminal = TextTerminal.getInstance();
-        this.showSummary(player, amount);
+        this.showSummary(player, amount, parking);
     }
     
     //Mostrar resumen
-    public void showSummary(Player player, int amount){
+    public void showSummary(Player player, int amount, FreeParking parking){
          if(amount > 0){
             textTerminal.showln("El jugador " + player.getColor() + " cobrara de la banca " + amount + " euros");
             player.setBalance(amount);
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + Math.abs(amount) + " euros");
+            textTerminal.showln("El jugador " + player.getColor() + " aportara al parking gratuito " + Math.abs(amount) + " euros");
+            parking.setDeposit(Math.abs(amount));
             player.setBalance(amount);
         }
     }

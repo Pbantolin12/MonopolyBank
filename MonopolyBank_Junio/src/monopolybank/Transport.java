@@ -21,7 +21,11 @@ public class Transport extends Property {
     @Override
     public int getPaymentForRent(){
         if(this.getNumberTransport() >= 0){
-            return this.costStaying[this.getNumberTransport()];
+            if(this.getMortgaged()){
+                return (int) Math.round(this.costStaying[this.getNumberTransport()] * 0.3);
+            } else{
+                return this.costStaying[this.getNumberTransport()];
+            }
         }
         return 0;
     }
@@ -40,8 +44,14 @@ public class Transport extends Property {
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
-        textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberTransport() + 
-            " estaciones. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
+        if(this.getMortgaged()){ //Modificación 1
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + 
+                    " con " + this.getNumberTransport() + " estaciones, que está hipotecada. Por ello, pagara " + amount +
+                    " al jugador " + this.getOwner().getColor() + " (1/3 de su valor)");
+        } else{
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberTransport() + 
+                    " estaciones. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
+        }
     }
     
     //Mostrar resumen de la compra

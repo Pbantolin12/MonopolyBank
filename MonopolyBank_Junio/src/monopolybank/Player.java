@@ -126,8 +126,7 @@ public class Player implements Serializable{
             textTerminal.show(">>Introduce el id de la propiedad: ");
             id = textTerminal.read();
             property = searchProperty(id);
-            if(property != null && property instanceof Street){
-                Street street = (Street) property;
+            if(property != null && property instanceof Street street){
                 textTerminal.showln("1.Vender");
                 textTerminal.showln("2.Cancelar");
                 textTerminal.show(">>Introduzca una opcion: ");

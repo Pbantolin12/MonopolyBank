@@ -97,3 +97,5 @@ La propiedad no pertenece al jugador;
 Esta propiedad no puede tener casas;
 1.Vender;
 No hay suficientes casas para vender;
+ cobrara ;
+ euros del parking gratuito;

@@ -23,6 +23,7 @@ public class Game implements Serializable{
     private Map<Integer, Player> playerList;
     private HashMap<Integer, MonopolyCode> idTypeMap;
     private String fileName;
+    private FreeParking parking; //Modificación 2
     
     //Constructor
     public Game(String fileName) throws FileNotFoundException, IOException{
@@ -57,16 +58,20 @@ public class Game implements Serializable{
             switch(option){
                 case 1 -> {
                     textTerminal.show(">>Introduzca el codigo de la tarjeta: ");
-                    int cardCode = textTerminal.read(); 
-                    MonopolyCode card = this.idTypeMap.get(cardCode); 
+                    int cardCode = textTerminal.read();
+                    MonopolyCode card = this.idTypeMap.get(cardCode);
                     textTerminal.show(">>Introduzca el codigo de jugador: ");
                     int playerCode = textTerminal.read(); 
                     Player player = this.playerList.get(playerCode); 
                     if(player.getBankrupt()){
                         this.removePlayer(player);
                     } else{
-                        card.doOperation(player);
-                        save();
+                        if(card instanceof PaymentCharge paymentCard){
+                            paymentCard.doOperation(player, parking);
+                        }else{
+                            card.doOperation(player);
+                            save();
+                        }
                     }
                 }
                 case 2 -> this.showGameState();
@@ -178,9 +183,16 @@ public class Game implements Serializable{
         switch(propertyType){
             case "REPAIRS_CARD" -> setMonopolyCode(id, new RepairsCard(id, propertyType, configInfo));
             case "PAYMENT_CHARGE_CARD" -> setMonopolyCode(id, new PaymentCharge(id, propertyType, configInfo));
-            case "STREET" -> setMonopolyCode(id, new Street(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
-            case "TRANSPORT" -> setMonopolyCode(id, new Transport(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
-            case "SERVICE" -> setMonopolyCode(id, new Service(id, propertyType, configInfo, getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "STREET" -> setMonopolyCode(id, new Street(id, propertyType, configInfo, 
+                    getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "TRANSPORT" -> setMonopolyCode(id, new Transport(id, propertyType, configInfo, 
+                    getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "SERVICE" -> setMonopolyCode(id, new Service(id, propertyType, configInfo, 
+                    getPrice(getMortageValue(configInfo)), false, getMortageValue(configInfo)));
+            case "FREEPARKING" -> { //Modificación 2
+                    this.parking = new FreeParking(id, propertyType, configInfo);
+                    setMonopolyCode(id,  parking);
+            }   
         }
     }
     

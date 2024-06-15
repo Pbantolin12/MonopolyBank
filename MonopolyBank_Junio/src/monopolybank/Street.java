@@ -29,7 +29,10 @@ public class Street extends Property {
         for(Property property:this.getOwner().getProperties()){
             if(this.equals(property) && this.getBuiltHouses() >= 0 && !property.getMortgaged()){
                 return this.costStayingWithHouses[this.getBuiltHouses()];
-            } else{
+            } else if(property.getMortgaged()){  //Modificación 1 (si la propiedad está hipotecada se cobra 1/3 del alquiler)
+                return (int) Math.round(this.costStayingWithHouses[this.getBuiltHouses()] * 0.3);
+            } 
+            else{
                 textTerminal.error("No se ha encontrado la propiedad");
             }
         }
@@ -39,8 +42,13 @@ public class Street extends Property {
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
+        if(this.getMortgaged()){ //Modificación 1
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + 
+                    "que está hipotecada. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor() + " (1/3 de su valor)");
+        } else{
         textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getBuiltHouses() + 
-                " casas. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());
+                    " casas. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());
+        }
     }
     
     //Mostrar resumen de la compra de una propiedad
@@ -153,12 +161,11 @@ public class Street extends Property {
         } else if(this.getOwner().equals(player)){
             this.doOwnerOperations();
         } else if(!this.getMortgaged()){
-            int payment = this.getPaymentForRent();
-            this.showPaymentSummary(payment, player);
-                if(!player.pay(payment, true)){
+            this.showPaymentSummary(this.getPaymentForRent(), player);
+                if(!player.pay(this.getPaymentForRent(), true)){
                     player.setBankrupt(this.getOwner());
                 } else{
-                    this.getOwner().setBalance(payment);
+                    this.getOwner().setBalance(this.getPaymentForRent());
                 }
         } else{
             textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " que esta hipotecada, por lo que no pagara nada");  

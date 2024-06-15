@@ -26,34 +26,8 @@ public class Property extends MonopolyCode {
     //Métodos
     
     //Obtener lo que tiene que pagar el jugador de alquiler
-    public int getPaymentForRent(){
-        //Local var
-        int cont = 0;
-        
-        //Code
-        textTerminal = TextTerminal.getInstance();
-        textTerminal.show(">>Introduce el numero marcado en los dados: ");
-        int num = textTerminal.read();
-        for(Property property: this.getOwner().getProperties()){
-            if(this.getClass().equals(property.getClass())){
-                cont++;
-            }
-        }
-        switch(cont){
-            case 1 -> {
-                return 4*num;
-            }
-            case 2 -> {
-                return 10*num;
-            }
-            default -> {
-                textTerminal.error("La propiedad no pertenece al jugador");
-                textTerminal.info("Operacion cancelada");
-                return 0;
-            }
-        }
-    }
-    
+    public int getPaymentForRent(){return 0;}
+      
     //Obtener el propietario
     public Player getOwner(){
         return this.owner;

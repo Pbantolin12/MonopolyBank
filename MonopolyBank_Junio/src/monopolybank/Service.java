@@ -23,12 +23,17 @@ public class Service extends Property {
         textTerminal = TextTerminal.getInstance();
         textTerminal.show(">>Introduce el numero marcado en los dados: ");
         int num = textTerminal.read();
-        int nService = this.getNumberService();
-        return switch (nService) {
-            case 1 -> 4*num;
-            case 2 -> 10*num;
-            default -> 0;
-        };
+        int amount;
+        switch (this.getNumberService()) {
+            case 1 -> amount = 4*num;
+            case 2 -> amount = 10*num;
+            default -> amount = 0;
+        }
+        if(this.getMortgaged()){
+            return (int) Math.round(amount * 0.3);
+        } else{
+            return amount;
+        }
     }
     
     //Obtenemos el número de cartas que posee el jugador
@@ -38,7 +43,7 @@ public class Service extends Property {
         
         //Code
         for(Property property: this.getOwner().getProperties()){
-            if(this.getClass().equals(property.getClass())){
+            if(property instanceof Service){
                 cont++;
             }
         }
@@ -48,8 +53,13 @@ public class Service extends Property {
     //Mostrar un resumen del pago
     private void showPaymentSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
+        if(this.getMortgaged()){ //Modificación 1
+            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberService() + 
+                " servicios, que está hipotecada. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor() + " (1/3 de su valor)");
+        } else{
         textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberService() + 
-            " servicios. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
+                " servicios. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
+        }
     }
     
     //Mostrar resumen de la compra

@@ -47,7 +47,7 @@ Ya existe una partida con ese nombre o incluye caracteres no validos;A game with
 Creando la partida;Creating the game
 El archivo no contiene un objeto de la clase Game;The file does not contain an object of the Game class
 Clase Game no encontrada al cargar el juego;Class Game not found when loading the game
- cobrara de la banca ; cash from the bank 
+ cobrara de la banca ; will be charged from the bank 
  pagara a la banca ; will pay to the bank 
 1.Pagar;1.Pay
 2.Cancelar;2.Cancel
@@ -97,3 +97,5 @@ La propiedad no pertenece al jugador;The property does not belong to the player
 Esta propiedad no puede tener casas;This property cannot have houses
 1.Vender;1.Sell
 No hay suficientes casas para vender;Not enough houses to sell
+ cobrara ; will be charged
+ euros del parking gratuito; euros from free parking
