@@ -5,7 +5,7 @@
 >>Introduzca una opcion: ;>>Enter an option: 
 >>Introduzca el codigo de la tarjeta: ;>>Enter the card code: 
 >>Introduzca el codigo de jugador: ;>>Enter the player code: 
-Saliendo...;Coming out...
+Saliendo...;Leaving...
 Opcion incorrecta;Wrong choice
 >>Introduzca el numero de jugadores: ;>>Enter the number of players: 
 El numero de jugadores introducidos no es correcto;The number of players entered is not correct
@@ -20,10 +20,10 @@ Creando nuevo jugador [azul] --> Id: 3;Creating new player [blue] -> Id: 3
 Creando nuevo jugador [negro] --> Id: 4;Creating new player [black] -> Id: 4
 El jugador ;The player 
  ha sido eliminado de la partida; has been removed from the game
-||--El jugador ;||-The player is 
+||--El jugador ;||-The player  
  ha ganado la partida--||; won the match-||
-Error al guardar el juego;Error when saving the game
-|____RESUMEN DE LA PARTIDA____|;|________GAME SUMMARY_________|;
+Error al guardar el juego;Error saving the game
+|____RESUMEN DE LA PARTIDA____|;|________GAME SUMMARY_________|
 -> Jugador: ;-> Player: 
 -> Nombre: ;-> Name: 
 -> Dinero: ;-> Money: 
@@ -52,7 +52,7 @@ Clase Game no encontrada al cargar el juego;Class Game not found when loading th
 1.Pagar;1.Pay
 2.Cancelar;2.Cancel
 Operacion cancelada;Operation cancelled
-No hay suficiente dinero para pagar;There’s not enough money to pay
+No hay suficiente dinero para pagar;There s not enough money to pay
 >>Introduce el id de la propiedad: ;>>Enter the property id: 
 ha sido hipotecado;has been mortgaged
 Ingresados ;Admitted 
@@ -83,7 +83,7 @@ Se va a realizar la venta de ;The sale of
 Demasiadas casas para edificar;Too many houses to build
 No hay tantas casas edificadas;There are not so many houses built
 Propiedad hipoteceada no se permite esta accion;Hypothetical property is not allowed this action
- que esta hipotecada, por lo que no pagara nada; that it is mortgaged, so it will pay nothing
+ que esta hipotecada. Por ello, pagara ; that it is mortgaged, so it will pay nothing
 1.Hipoteca;1.Mortgage
 2.Comprar casas;2.Purchase of houses
 3.Vender casas;3.Sell houses
@@ -99,3 +99,29 @@ Esta propiedad no puede tener casas;This property cannot have houses
 No hay suficientes casas para vender;Not enough houses to sell
  cobrara ; will be charged
  euros del parking gratuito; euros from free parking
+La carta no ha sido encontrada;The card has not been found
+Se han cobrado ;Have been charged 
+ (1/3 de su valor); (1/3 its value)
+rojo;red
+verde;green
+azul;blue
+negro;black
+Jugador ;Player 
+ ve a la carcel, si pasas por la casilla de salida no cobraras los 200 euros; go to jail, if you go through the exit box you will not charge 200 euros
+ ha usado la carta para salir de la carcel; has used the letter to get out of jail
+No posees esta carta;You don’t own this card
+1.Usar carta de libertad;1.Using a letter of freedom
+2.No hacer nada;2.Do nothing
+Si el jugador ha pasado por la casilla de salida cobra 200 euros;If the player has passed through the exit box charges 200 euros
+1.Ha pasado por la casilla de salida;1.Has passed through the exit box
+2.No ha pasado por la casilla de salida;2.Has not passed the exit box
+ pagara ; will pay
+ por casa y ; by house and 
+ por hotel; by hotel
+ euros por ;  euros by 
+ casas y ; houses and 
+ hoteles; hotels
+1.Guardar;1.Save
+2.Vender;2.Sell
+Carta guardada;Saved card
+Carta vendida por 200 euros;Card sold for 200 euros

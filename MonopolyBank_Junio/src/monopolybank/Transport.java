@@ -45,20 +45,20 @@ public class Transport extends Property{
     private void showPaymentSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
         if(this.getMortgaged()){ //Modificación 1
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + 
-                    " con " + this.getNumberTransport() + " estaciones, que está hipotecada. Por ello, pagara " + amount +
-                    " al jugador " + this.getOwner().getColor() + " (1/3 de su valor)");
+            textTerminal.showln("El jugador &" + player.getColor() + "& usara la propiedad &" + this.getName() + 
+                    "& con &" + this.getNumberTransport() + "& estaciones, que esta hipotecada. Por ello, pagara &" + amount +
+                    "& al jugador &" + this.getOwner().getColor() + "& (1/3 de su valor)");
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " + this.getNumberTransport() + 
-                    " estaciones. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());  
+            textTerminal.showln("El jugador &" + player.getColor() + "& usara la propiedad &" + this.getName() + "& con &" + this.getNumberTransport() + 
+                    "& estaciones. Por ello, pagara &" + amount + "& al jugador &" + this.getOwner().getColor());  
         }
     }
     
     //Mostrar resumen de la compra
     private void showPurchaseSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
-        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " + 
-            player.getColor() + " por un importe de " + amount + " euros");
+        textTerminal.showln("Se va a realizar la compra de la propiedad &" + this.getName() + "& por parte del jugador &" + 
+            player.getColor() + "& por un importe de &" + amount + "& euros");
     }
     
     //Copiamos la información a un array de enteros
@@ -99,16 +99,22 @@ public class Transport extends Property{
         textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipotecar");
         textTerminal.showln("2.Deshipotecar");
-        if(textTerminal.read() == 1 && !this.getMortgaged()){
-            this.setMortgaged(true);
-        } else if(textTerminal.read() == 1 && this.getMortgaged()){
-            textTerminal.error("Esta propiedad esta hipotecada");
-        } else if(textTerminal.read() == 2 && this.getMortgaged()){
-            this.setMortgaged(false);
-        } else if(textTerminal.read() == 2 && !this.getMortgaged()){
-            textTerminal.error("Esta propiedad no esta hipotecada");
-        } else{
-            textTerminal.error("Opcion incorrecta");
+         switch(textTerminal.read()){
+            case 1->{
+                if(this.getMortgaged()){
+                    textTerminal.error("Esta propiedad esta hipotecada");
+                } else{
+                    this.getOwner().mortgage(this);
+                }
+            }
+            case 2->{
+                if(this.getMortgaged()){
+                    this.getOwner().demortgage(this);
+                } else{
+                    textTerminal.error("Esta propiedad no esta hipotecada");
+                }
+            }
+            default -> textTerminal.error("Opcion incorrecta");
         }
     }
 }

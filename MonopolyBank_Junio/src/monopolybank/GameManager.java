@@ -73,7 +73,7 @@ public class GameManager{
                     textTerminal.showln(counter + "." + fileName);
                     counter++;
                 }
-                textTerminal.showln(counter + "." + "|Cancelar|");
+                textTerminal.showln(counter + "." + "&|Cancelar|");
                 textTerminal.show(">>Introduzca una opcion: ");
                 option = textTerminal.read();
                 if(option < 1 || option > counter){

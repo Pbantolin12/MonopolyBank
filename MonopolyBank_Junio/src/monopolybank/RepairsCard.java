@@ -65,8 +65,13 @@ public class RepairsCard extends MonopolyCode{
     //Mostrar resumen del pago de reparaciones
     public void showSummary(Player player, int amount){
         textTerminal = TextTerminal.getInstance();
-        textTerminal.showln("El jugador " + player.getColor() + " pagara a la banca " + amount + " euros");
-        player.setBalance(-amount);
+        textTerminal.info("El jugador &" + player.getColor() + "& pagara &" + this.amountForHouse +
+                        "& por casa y &" + this.amountForHotel + "& por hotel");
+                textTerminal.showln("El jugador &" + player.getColor() + "& pagara &" + calculateAmountHouses(player)*this.amountForHouse +
+                        "& euros por &" + calculateAmountHouses(player) + "& casas y &" + calculateAmountHotel(player)*this.amountForHotel + 
+                        "& euros por &" + calculateAmountHotel(player) + "& hoteles");
+                int toPay = calculateAmountHouses(player)*this.amountForHouse + calculateAmountHotel(player)*this.amountForHotel;
+                player.pay(amount, true);
     }
     
     //Buscar valores numéricos en la descripción de la carta

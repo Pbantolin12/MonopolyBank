@@ -55,20 +55,20 @@ public class Service extends Property{
         textTerminal = TextTerminal.getInstance();
         //Muestra el resumen del pago considerando si la propiedad está hipotecada
         if(this.getMortgaged()){
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " +
-                    this.getNumberService() + " servicios, que esta hipotecada. Por ello, pagara " + amount + " al jugador " + 
-                    this.getOwner().getColor() + " (1/3 de su valor)");
+            textTerminal.showln("El jugador &" + player.getColor() + "& usara la propiedad &" + this.getName() + "& con &" +
+                    this.getNumberService() + "& servicios, que esta hipotecada. Por ello, pagara &" + amount + "& al jugador &" + 
+                    this.getOwner().getColor() + "& (1/3 de su valor)");
         } else{
-            textTerminal.showln("El jugador " + player.getColor() + " usara la propiedad " + this.getName() + " con " +
-                    this.getNumberService() + " servicios. Por ello, pagara " + amount + " al jugador " + this.getOwner().getColor());
+            textTerminal.showln("El jugador &" + player.getColor() + "& usara la propiedad &" + this.getName() + "& con &" +
+                    this.getNumberService() + "& servicios. Por ello, pagara &" + amount + "& al jugador &" + this.getOwner().getColor());
         }
     }
     
     //Muestra un resumen de la compra
     private void showPurchaseSummary(int amount, Player player){
         textTerminal = TextTerminal.getInstance();
-        textTerminal.showln("Se va a realizar la compra de la propiedad " + this.getName() + " por parte del jugador " +
-                player.getColor() + " por un importe de " + amount + " euros");
+        textTerminal.showln("Se va a realizar la compra de la propiedad &" + this.getName() + "& por parte del jugador &" +
+                player.getColor() + "& por un importe de &" + amount + "& euros");
     }
     
     //Realizar una operación
@@ -103,18 +103,18 @@ public class Service extends Property{
         textTerminal.showln("2. Deshipotecar");
         textTerminal.show(">>Introduzca una opcion: ");
         switch(textTerminal.read()){
-            case 1 ->{
-                if(!this.getMortgaged()){
-                    this.setMortgaged(true); //Hipoteca la propiedad si no está hipotecada
+            case 1->{
+                if(this.getMortgaged()){
+                    textTerminal.error("Esta propiedad esta hipotecada");
                 } else{
-                    textTerminal.error("La propiedad esta hipotecada");
+                    this.getOwner().mortgage(this);
                 }
             }
-            case 2 ->{
+            case 2->{
                 if(this.getMortgaged()){
-                    this.setMortgaged(false); //Deshipoteca la propiedad si está hipotecada
+                    this.getOwner().demortgage(this);
                 } else{
-                    textTerminal.error("La propiedad no esta hipotecada");
+                    textTerminal.error("Esta propiedad no esta hipotecada");
                 }
             }
             default -> textTerminal.error("Opcion incorrecta");

@@ -54,25 +54,23 @@ public class Game implements Serializable{
             textTerminal.showln("|____________________________________|");
             textTerminal.show(">>Introduzca una opcion: ");
             option = textTerminal.read();
+            textTerminal.nextLine();
             switch(option){
                 case 1 -> {
                     textTerminal.show(">>Introduzca el codigo de la tarjeta: ");
                     int cardCode = textTerminal.read();
                     MonopolyCode card = this.idTypeMap.get(cardCode);
-                    textTerminal.show(">>Introduzca el codigo de jugador: ");
-                    int playerCode = textTerminal.read(); 
-                    Player player = this.playerList.get(playerCode); 
-                    if(player.getBankrupt()) { //Si el jugador está en bancarrota
-                        this.removePlayer(player); //Elimina al jugador
-                    } else{
+                        textTerminal.show(">>Introduzca el codigo de jugador: ");
+                        int playerCode = textTerminal.read(); 
+                        Player player = this.playerList.get(playerCode);
                         if(card instanceof PaymentCharge paymentCard) {
                             paymentCard.doOperation(player, parking); //Realiza la operación de la tarjeta de pago
                         } else{
                             card.doOperation(player); //Realiza la operación de la carta
-                            save(); //Guarda la partida
                         }
+                    this.checkBankrupt();
+                    save(); //Guarda la partida
                     }
-                }
                 case 2 -> this.showGameState(); //Muestra el estado del juego
                 case 3 ->{
                     save(); //Guarda la partida
@@ -226,10 +224,12 @@ public class Game implements Serializable{
     //Elimina un jugador
     private void removePlayer(Player player){
         if(player.getBankrupt()){
+            textTerminal.info("El jugador &" + player.getColor() + "& -> &" + player.getName() + "& ha sido eliminado de la partida");
             this.playerList.remove(player.getId());
-            textTerminal.info("El jugador " + player.getColor() + player.getName() + " ha sido eliminado de la partida");
             if(this.playerList.size() == 1){
-                textTerminal.showln("||--El jugador " + this.playerList.get(0).getColor() + this.playerList.get(0).getName() + " ha ganado la partida--||");
+                Player winner = this.playerList.values().iterator().next(); //Obtenemos el jugador que quede en el hashmap 
+                textTerminal.showln("||--El jugador &" + winner.getColor() + "& -> &" + winner.getName() + "& ha ganado la partida--||"); 
+                System.exit(0);
             }
         }
     }
@@ -266,30 +266,39 @@ public class Game implements Serializable{
         textTerminal.nextLine();
         Collection<Player> playersList = playerList.values();
         for(Player player : playersList){
-            textTerminal.showln("-> Jugador: " + player.getColor());
-            textTerminal.showln("-> Nombre: " + player.getName());
-            textTerminal.showln("-> Dinero: " + player.getBalance());
+            textTerminal.showln("-> Jugador: &" + player.getColor());
+            textTerminal.showln("-> Nombre: &" + player.getName());
+            textTerminal.showln("-> Dinero: &" + player.getBalance());
             textTerminal.showln("|-PROPIEDADES SIN HIPOTECAR-|");
             for(Property property : player.getProperties()){
-                textTerminal.showln("---> Propiedad: [" + property.getId() + "] " + property.getName());
+                textTerminal.showln("---> Propiedad: [&" + property.getId() + "&] &" + property.getName());
                 if(property instanceof Street street){
-                    textTerminal.showln("-> Casas: " + street.getBuiltHouses());
+                    textTerminal.showln("-> Casas: &" + street.getBuiltHouses());
                 }
-                textTerminal.showln("-> Valor: " + property.getPrice());
-                textTerminal.showln("-> Valor hipoteca: " + property.getMortgageValue());
+                textTerminal.showln("-> Valor: &" + property.getPrice());
+                textTerminal.showln("-> Valor hipoteca: &" + property.getMortgageValue());
             }
             textTerminal.showln("|-PROPIEDADES HIPOTECADAS-|");
             for(Property property : player.getPropertiesMortaged()){
-                textTerminal.showln("Propiedad: [" + property.getId() + "] " + property.getName());
+                textTerminal.showln("Propiedad: [&" + property.getId() + "&] &" + property.getName());
                 if(property instanceof Street street){
-                    textTerminal.showln("-> Casas: " + street.getBuiltHouses());
+                    textTerminal.showln("-> Casas: &" + street.getBuiltHouses());
                 }
-                textTerminal.showln("-> Valor: " + property.getPrice());
-                textTerminal.showln("-> Valor hipoteca: " + property.getMortgageValue());
+                textTerminal.showln("-> Valor: &" + property.getPrice());
+                textTerminal.showln("-> Valor hipoteca: &" + property.getMortgageValue());
             }
             textTerminal.nextLine();
             textTerminal.showln("*******************************");
             textTerminal.nextLine();
         }
+    }
+    
+    //Comprobar si alguno de los jugadores está en bancarrota
+    private void checkBankrupt(){
+        this.playerList.forEach((id, player) -> {
+            if(player.getBankrupt()){
+                this.removePlayer(player);
+            }
+        });
     }
 }

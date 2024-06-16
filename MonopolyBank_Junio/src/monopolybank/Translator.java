@@ -31,7 +31,12 @@ public class Translator {
     
     //Traducimos el texto
     public String translate(String text){
-        return this.dictionary.getOrDefault(text, text); //Devolvemos el texto traducido, en el caso de no encontrarlo, devolvemos el texto inicial
+        String[] splitText = text.split("&"); //Separa la línea según los "&"
+        String returnText = new String(); //String donde almacenaremos toda la cadena
+        for(String word : splitText){ //Recorremos el array de strings separados por "&"
+           returnText += this.dictionary.getOrDefault(word, word); //Añadimos la palabra traducida a la cadena
+        }
+        return returnText; //Devolvemos la cadena traducida
     }
     
     //Lee el archivo y proporciona líneas a loadMonopolyCodes()

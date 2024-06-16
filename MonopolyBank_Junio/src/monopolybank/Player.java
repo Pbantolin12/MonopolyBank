@@ -16,6 +16,7 @@ public class Player implements Serializable{
     private transient TextTerminal textTerminal; //Terminal para la interacción con el usuario
     private List<Property> propertiesOwned; //Lista de propiedades adquiridas
     private List<Property> propertiesMortaged; //Lista de propiedades hipotecadas
+    private boolean freeJailCard; //Carta para salir de la cárcel
     
     //Constructor
     public Player(int id, String name, Color color){
@@ -93,12 +94,7 @@ public class Player implements Serializable{
                         }
                     }
                 }
-                if(this.balance >= 0){
-                    return true;
-                } else{
-                    this.setBankrupt(this);
-                    return false;
-                }
+                return this.balance >= 0;
             }
         }
         return false;
@@ -109,7 +105,7 @@ public class Player implements Serializable{
         textTerminal = TextTerminal.getInstance();
         textTerminal.showln("LISTA DE PROPIEDADES");
         for(Property property : this.propertiesOwned){
-            textTerminal.showln("[" + property.getId() + "] " + property.getName());
+            textTerminal.showln("[&" + property.getId() + "&] &" + property.getName());
         } 
     }
     
@@ -132,7 +128,7 @@ public class Player implements Serializable{
                 textTerminal.show(">>Introduzca una opcion: ");
                 switch(textTerminal.read()){
                     case 1 ->{
-                        textTerminal.show(">>Introduzca el numero de casas que desea vender (disponibles " + street.getBuiltHouses() + "): ");
+                        textTerminal.show(">>Introduzca el numero de casas que desea vender (disponibles &" + street.getBuiltHouses() + "&): ");
                         int nHousesSell = textTerminal.read();
                         street.sellHouses(this, nHousesSell);
                     }
@@ -220,9 +216,10 @@ public class Player implements Serializable{
             }
             this.bankrupt = true;
             return this.bankrupt;
+        } else{
+            this.bankrupt = false;
+            return this.bankrupt;
         }
-        this.bankrupt = false;
-        return this.bankrupt;
     }
     
     //Establecer bancarrota
@@ -231,7 +228,7 @@ public class Player implements Serializable{
             propertiesOwned.get(i).setOwner(newOwner);
             propertiesOwned.remove(i);
         }
-        textTerminal.showln("El jugador " + this.name + " esta en bancarrota");
+        textTerminal.showln("El jugador &" + this.name + "& esta en bancarrota");
         this.bankrupt = true;
     }
     
@@ -256,8 +253,18 @@ public class Player implements Serializable{
         this.propertiesOwned.remove(property);
         this.propertiesMortaged.add(property);
         this.balance += property.getMortgageValue();
-        textTerminal.info(property.getName() + " ha sido hipotecado");
-        textTerminal.info("Ingresados " + property.getMortgageValue() + " euros");
+        textTerminal.info(property.getName() + "& ha sido hipotecado");
+        textTerminal.info("Ingresados &" + property.getMortgageValue() + "& euros");
+    }
+    
+    //Deshipotecar una propiedad
+    public void demortgage(Property property){
+        property.setMortgaged(false);
+        this.propertiesOwned.add(property);
+        this.propertiesMortaged.remove(property);
+        this.balance -= property.getMortgageValue();
+        textTerminal.info(property.getName() + "& ha sido deshipotecado");
+        textTerminal.info("Se han cobrado &" + property.getMortgageValue() + "& euros");
     }
     
     //Aceptar venta de una casa
@@ -270,4 +277,26 @@ public class Player implements Serializable{
             case 2 -> textTerminal.showln("Operacion cancelada");
         }
     }
+    
+    //Establecer el estado de la carta de salida de la cárcel
+    public void setJailCard(boolean state){
+        this.freeJailCard = state;
+    }
+    
+    //Obtenemos el estado de la carta de salida de la cárcel
+    public boolean getJailCard(){
+        return this.freeJailCard;
+    }
+    
+    //Operación para salir de la cárcel
+    public void outOfJail(){
+        if(this.getJailCard()){
+            textTerminal.showln("El jugador &" + this.getColor() + "& ha usado la carta para salir de la carcel");
+            this.setJailCard(false);
+        } else{
+            textTerminal.error("No posees esta carta");
+        }
+    }
+    
+    
 }

@@ -31,7 +31,7 @@ public class FreeParking extends MonopolyCode{
     public void doOperation(Player player){
         this.textTerminal = TextTerminal.getInstance(); //Asegura que el terminal está inicializado
         player.setBalance(this.getDeposit()); //Da al jugador el dinero acumulado
-        textTerminal.showln("El jugador " + player.getColor() + " cobrara " + this.getDeposit() + " euros del parking gratuito");
+        textTerminal.showln("El jugador &" + player.getColor() + "& cobrara &" + this.getDeposit() + "& euros del parking gratuito");
         this.setDeposit(0); //Reinicia el depósito a 0
     }
 }

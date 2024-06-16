@@ -1,0 +1,129 @@
+|________ACCIONES_DISPONIBLES________|;|_______ACCIONS_DISPONIBLES_________|
+| 1.Introducir codigo de la tarjeta  |;| 1.Introduir codi de la targeta    |
+| 2.Mostrar resumen                  |;| 2.Mostrar resum                   |
+| 3.Salir                            |;| 3.Sortir                          |
+>>Introduzca una opcion: ;>>Introduiu una opcio: 
+>>Introduzca el codigo de la tarjeta: ;>>Introduiu el codi de la targeta: 
+>>Introduzca el codigo de jugador: ;>>Introduiu el codi de jugador: 
+Saliendo...;Sortint...
+Opcion incorrecta;Opcio incorrecta
+>>Introduzca el numero de jugadores: ;>>Introduiu el nombre de jugadors: 
+El numero de jugadores introducidos no es correcto;El nombre de jugadors introduits no es correcte
+Colores disponibles: ;Colors disponibles: 
+>>Introduzca la primera letra de cada color: ;>>Introduiu la primera lletra de cada color: 
+El numero de colores elegido no es correcto;El nombre de colors triat no es correcte
+Hay colores repetidos;Hi ha colors repetits
+Creando nuevo jugador [rojo] --> Id: 1;Creant nou jugador [vermell] --> Id: 1
+>>Introduzca el nombre del jugador: ;>>Introduiu el nom del jugador: 
+Creando nuevo jugador [verde] --> Id: 2;Creant nou jugador [verd] --> Id: 2
+Creando nuevo jugador [azul] --> Id: 3;Creant nou jugador [blau] --> Id: 3
+Creando nuevo jugador [negro] --> Id: 4;Creant nou jugador [negre] --> Id: 4
+El jugador ;El jugador 
+ ha sido eliminado de la partida; ha estat eliminat de la partida
+||--El jugador ;||--El jugador 
+ ha ganado la partida--||; ha guanyat la partida--||
+Error al guardar el juego;Error en desar el joc
+|____RESUMEN DE LA PARTIDA____|;|____RESUM DE LA PARTIDA____|
+-> Jugador: ;-> Jugador: 
+-> Nombre: ;-> Nom: 
+-> Dinero: ;-> Diners: 
+|-PROPIEDADES SIN HIPOTECAR-|;|-PROPIETATS SENSE HIPOTECAR-|
+---> Propiedad: [;---> Propietat: [
+-> Casas: ;-> Cases: 
+-> Valor: ;-> Valor: 
+-> Valor hipoteca: ;-> Valor hipoteca: 
+|-PROPIEDADES HIPOTECADAS-|;|-PROPIETATS HIPOTECADES-|
+Propiedad: [;Propietat: [
+ ___________________________; _____________________________
+|_Bienvenido_a_MonopolyBank_|;|__Benvingut_a_MonopolyBank___|
+| 1.Cargar partida guardada |;| 1.Carregar partida guardada |
+| 2.Crear nueva partida     |;| 2.Crear nova partida        |
+| 3.Salir                   |;| 3.Sortir                    |
+|___________________________|;|_____________________________|
+Cargando lista de partidas;Carregant llista de partides
+|Cancelar|;|Cancellar|
+La carpeta esta vacia;La carpeta es buida
+Se va a crear una partida nueva;Es creara una nova partida
+>>Introduzca el nombre de la nueva partida: ;>>Introduiu el nom de la nova partida: 
+Ya existe una partida con ese nombre o incluye caracteres no validos;Ja hi ha una partida amb aquest nom o inclou caracters no valids
+Creando la partida;Creant la partida
+El archivo no contiene un objeto de la clase Game;El fitxer no conte un objecte de la classe Game
+Clase Game no encontrada al cargar el juego;Classe Game no trobada en carregar el joc
+ cobrara de la banca ; cobres de la banca 
+ pagara a la banca ; pagues a la banca 
+1.Pagar;1.Pagar
+2.Cancelar;2.Cancellar
+Operacion cancelada;Operacio cancellada
+No hay suficiente dinero para pagar;No hi ha prou diners per pagar
+>>Introduce el id de la propiedad: ;>>Introdueix l id de la propietat: 
+ha sido hipotecado;ha estat hipotecat
+Ingresados ;ingressats 
+No se ha encontrado la propiedad;La propietat no s ha trobat
+LISTA DE PROPIEDADES;LLISTA DE PROPIETATS
+La propiedad no pertenece al jugador;La propietat no pertany al jugador
+>>Introduce el numero marcado en los dados: ;>>Introdueix el numero marcat als daus: 
+ usara la propiedad ; uses la propietat 
+ con ; amb 
+ servicios. Por ello, pagara ; serveis. Per aixo, pagues
+ al jugador ; al jugador 
+Se va a realizar la compra de la propiedad ;Es realitzara la compra de la propietat
+ por parte del jugador ; per part del jugador
+ por un importe de ; per un import de 
+1.Hipotecar;1.Hipotecar
+2.Deshipotecar;2.Deshipotecar
+La propiedad esta hipotecada;La propietat aquesta hipotecada
+La propiedad no esta hipotecada;La propietat no està hipotecada
+ casas. Por ello, pagara ; cases. Per aixo, pagues
+ al jugador ; al jugador 
+dos;dos
+tres;tres
+cuatro;quatre
+cinco;cinc
+una;una
+ casa para la propiedad ; casa per a la propietat 
+Se va a realizar la venta de ;Es realitzara la venda de 
+Demasiadas casas para edificar;Massa cases per edificar
+No hay tantas casas edificadas;No hi ha tantes cases edificades
+Propiedad hipoteceada no se permite esta accion;Propietat hipoteceada no es permet aquesta accio
+ que esta hipotecada. Por ello, pagara ; que aquesta hipotecada, per la qual cosa no pagues res
+1.Hipoteca;1.Hipoteca
+2.Comprar casas;2.Comprar cases
+3.Vender casas;3.Vendre cases
+>>Introduzca el numero de casas que deseas comprar: ;>>Introduiu el nombre de cases que voleu comprar: 
+>>Introduzca el numero de casas que deseas vender: ;>>Introduiu el nombre de cases que voleu vendre: 
+ estaciones. Por ello, pagara ; estacions. Per aixo, pagues
+Dinero insuficiente, se van a hipotecar propiedades;Diners insuficients, s hipotaran propietats
+esta en bancarrota;aquesta en fallida
+La propiedad esta hipotecada;La propietat aquesta hipotecada
+La propiedad no pertenece al jugador;La propietat no pertany al jugador
+Esta propiedad no puede tener casas;Aquesta propietat no pot tenir cases
+1.Vender;1.Vendre
+No hay suficientes casas para vender;No hi ha prou cases per vendre
+ cobrara ; cobres
+ euros del parking gratuito; euros del parquing gratuit
+La carta no ha sido encontrada;La carta no ha estat trobada
+Se han cobrado ;S han cobrat
+ (1/3 de su valor); (1/3 del seu valor)
+rojo;vermell
+verde;verd
+azul;blau
+negro;negre
+Jugador ;Jugador 
+ ve a la carcel, si pasas por la casilla de salida no cobraras los 200 euros; ves a la preso, si passes per la casella de sortida no cobraras els 200 euros
+ ha usado la carta para salir de la carcel; ha fet servir la carta per sortir de la preso
+No posees esta carta;No tens aquesta carta
+1.Usar carta de libertad;1.Usar carta de llibertat
+2.No hacer nada;2.No fer res
+Si el jugador ha pasado por la casilla de salida cobra 200 euros;Si el jugador ha passat per la casella de sortida cobra 200 euros
+1.Ha pasado por la casilla de salida;1.Ha passat per la casella de sortida
+2.No ha pasado por la casilla de salida;2.No ha passat per la casella de sortida
+ pagara ; pagues
+ por casa y ; per casa i 
+ por hotel; per hotel 
+ euros por ; euros per 
+ casas y ; cases i 
+ hoteles; hotels
+1.Guardar;1.Guardar
+2.Vender;2.Vendre
+Carta guardada;Carta guardada
+Carta vendida por 200 euros;Carta venuda per 200 euros
