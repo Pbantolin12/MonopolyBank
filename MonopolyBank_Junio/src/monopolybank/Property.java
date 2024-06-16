@@ -1,6 +1,8 @@
 
 package monopolybank;
 
+import java.util.Map;
+
 public class Property extends MonopolyCode {
     
     //Atributos
@@ -62,7 +64,7 @@ public class Property extends MonopolyCode {
     }
     
     //Realizar las operaciones de un propietario
-    public void doOwnerOperations(){
+    public void doOwnerOperations(Map<Integer, Player> playerList){
         //Implementar acciones específicas para el propietario
     }
     

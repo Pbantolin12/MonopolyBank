@@ -1,6 +1,8 @@
 
 package monopolybank;
 
+import java.util.Map;
+
 public class Street extends Property {
     
     //Atributos 
@@ -152,14 +154,14 @@ public class Street extends Property {
     
     //Realizar una operación
     @Override
-    public void doOperation(Player player){
+    public void doOperation(Player player, Map<Integer, Player> playerList){
         if(this.getOwner() == null){
             this.showPurchaseSummary(this.getPrice(), player);
             player.pay(this.getPrice(), false);
             player.setProperty(this);
             this.setOwner(player);
         } else if(this.getOwner().equals(player)){
-            this.doOwnerOperations();
+            this.doOwnerOperations(playerList);
         } else if(!this.getMortgaged()){
             this.showPaymentSummary(this.getPaymentForRent(), player);
                 if(!player.pay(this.getPaymentForRent(), true)){
@@ -175,11 +177,12 @@ public class Street extends Property {
     
     //Realizar una operación de un propietario
     @Override
-    public void doOwnerOperations(){
+    public void doOwnerOperations(Map<Integer, Player> playerList){
         textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipoteca");
         textTerminal.showln("2.Comprar casas");
         textTerminal.showln("3.Vender casas");
+        textTerminal.showln("4.Traspasar propiedad");
         textTerminal.show(">>Introduzca una opcion: ");
         switch(textTerminal.read()){
             case 1 -> {
@@ -212,6 +215,14 @@ public class Street extends Property {
                 textTerminal.show(">>Introduzca el numero de casas que deseas vender: ");
                 int nHouses = textTerminal.read();
                 this.sellHouses(this.getOwner(), nHouses);
+            }
+            case 4 ->{
+                 textTerminal.show(">>Introduzca el precio de venta: ");
+                int sellPrice = textTerminal.read();
+                textTerminal.show(">>Introduzca el codigo de jugador: ");
+                int idPlayer = textTerminal.read();
+                Player player = playerList.get(idPlayer);
+                this.getOwner().traspaseProperties(player, this, sellPrice);  
             }
             default -> textTerminal.error("Opcion incorrecta");
         }

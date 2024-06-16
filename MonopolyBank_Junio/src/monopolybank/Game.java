@@ -66,7 +66,7 @@ public class Game implements Serializable{
                         if(card instanceof PaymentCharge paymentCard) {
                             paymentCard.doOperation(player, parking); //Realiza la operación de la tarjeta de pago
                         } else{
-                            card.doOperation(player); //Realiza la operación de la carta
+                            card.doOperation(player, this.playerList); //Realiza la operación de la carta
                         }
                     this.checkBankrupt();
                     save(); //Guarda la partida

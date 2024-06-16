@@ -1,6 +1,8 @@
 
 package monopolybank;
 
+import java.util.Map;
+
 public class FreeParking extends MonopolyCode{
     
     //Atributos
@@ -28,7 +30,7 @@ public class FreeParking extends MonopolyCode{
     
     //Da al jugador todo el dinero acumulado
     @Override
-    public void doOperation(Player player){
+    public void doOperation(Player player, Map<Integer, Player> playerList){
         this.textTerminal = TextTerminal.getInstance(); //Asegura que el terminal está inicializado
         player.setBalance(this.getDeposit()); //Da al jugador el dinero acumulado
         textTerminal.showln("El jugador &" + player.getColor() + "& cobrara &" + this.getDeposit() + "& euros del parking gratuito");

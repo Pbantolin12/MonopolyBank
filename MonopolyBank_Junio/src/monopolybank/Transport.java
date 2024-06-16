@@ -1,6 +1,8 @@
 
 package monopolybank;
 
+import java.util.Map;
+
 public class Transport extends Property{
     
     //Atributos
@@ -73,7 +75,7 @@ public class Transport extends Property{
     
     //Realizar una operación
     @Override
-    public void doOperation(Player player){
+    public void doOperation(Player player, Map<Integer, Player> playerList){
         if(this.getOwner() == null){
             this.showPurchaseSummary(this.getPrice(), player);
             if(player.pay(this.getPrice(), false)){
@@ -81,7 +83,7 @@ public class Transport extends Property{
                 this.setOwner(player);
             }
         } else if(this.getOwner().equals(player)){
-            this.doOwnerOperations();
+            this.doOwnerOperations(playerList);
         } else if(!this.getMortgaged()){
             int payment = this.getPaymentForRent();
             this.showPaymentSummary(payment, player);
@@ -94,11 +96,12 @@ public class Transport extends Property{
     }
     
     //Realizar una operación de un propietario
-     @Override
-    public void doOwnerOperations(){
+    @Override
+    public void doOwnerOperations(Map<Integer, Player> playerList){
         textTerminal = TextTerminal.getInstance();
         textTerminal.showln("1.Hipotecar");
         textTerminal.showln("2.Deshipotecar");
+        textTerminal.showln("3.Traspasar");
          switch(textTerminal.read()){
             case 1->{
                 if(this.getMortgaged()){
@@ -113,6 +116,14 @@ public class Transport extends Property{
                 } else{
                     textTerminal.error("Esta propiedad no esta hipotecada");
                 }
+            }
+            case 3 ->{
+                textTerminal.show(">>Introduzca el precio de venta: ");
+                int sellPrice = textTerminal.read();
+                textTerminal.show(">>Introduzca el codigo de jugador: ");
+                int idPlayer = textTerminal.read();
+                Player player = playerList.get(idPlayer);
+                this.getOwner().traspaseProperties(player, this, sellPrice);    
             }
             default -> textTerminal.error("Opcion incorrecta");
         }

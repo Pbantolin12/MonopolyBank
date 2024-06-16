@@ -127,3 +127,9 @@ Si el jugador ha pasado por la casilla de salida cobra 200 euros;Si el jugador h
 2.Vender;2.Vendre
 Carta guardada;Carta guardada
 Carta vendida por 200 euros;Carta venuda per 200 euros
+La propiedad ;La propietat 
+ ha sido traspasada al jugador ; ha estat traspassada al jugador 
+ por ; per 
+4.Traspasar propiedad;4. Traspassar propietat
+3.Traspasar propiedad;3. Traspassar propietat
+>>Introduzca el precio de venta: ;>> Introduiu el preu de venta:

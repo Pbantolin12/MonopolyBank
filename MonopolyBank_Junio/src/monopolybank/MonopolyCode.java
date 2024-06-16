@@ -2,6 +2,7 @@
 package monopolybank;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class MonopolyCode implements Serializable{
     
@@ -25,7 +26,7 @@ public class MonopolyCode implements Serializable{
     }
     
     //Realizar una operación
-    public void doOperation(Player p){}
+    public void doOperation(Player p, Map<Integer, Player> playerList){}
     
     //Obtener el id
     public int getId(){

@@ -125,3 +125,9 @@ Si el jugador ha pasado por la casilla de salida cobra 200 euros;If the player h
 2.Vender;2.Sell
 Carta guardada;Saved card
 Carta vendida por 200 euros;Card sold for 200 euros
+La propiedad ;The property 
+ ha sido traspasada al jugador ; has been transferred to the player 
+ por ; by 
+4.Traspasar propiedad;4. Transfer of property
+3.Traspasar propiedad;3. Transfer of property
+>>Introduzca el precio de venta: ;>>Enter the selling price: 

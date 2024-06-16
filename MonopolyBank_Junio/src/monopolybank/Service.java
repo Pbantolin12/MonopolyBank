@@ -1,6 +1,8 @@
 
 package monopolybank;
 
+import java.util.Map;
+
 public class Service extends Property{
     
     // Atributos
@@ -73,7 +75,7 @@ public class Service extends Property{
     
     //Realizar una operación
     @Override
-    public void doOperation(Player player){
+    public void doOperation(Player player, Map<Integer, Player> playerList){
         if(this.getOwner() == null){
             //Si la propiedad no tiene dueño, se muestra el resumen de compra y se realiza la transacción
             this.showPurchaseSummary(this.getPrice(), player);
@@ -82,7 +84,7 @@ public class Service extends Property{
             this.setOwner(player);
         } else if(this.getOwner().equals(player)){
             // Si el jugador es el propietario, se realizan operaciones específicas del propietario
-            this.doOwnerOperations();
+            this.doOwnerOperations(playerList);
         } else if(!this.getMortgaged()){
             //Si la propiedad tiene un dueño distinto al jugador y no está hipotecada, se calcula y muestra el pago por alquiler
             int payment = this.getPaymentForRent();
@@ -97,10 +99,11 @@ public class Service extends Property{
     
     //Realiza operaciones específicas del propietario
     @Override
-    public void doOwnerOperations(){
+    public void doOwnerOperations(Map<Integer, Player> playerList){
         textTerminal = TextTerminal.getInstance();
-        textTerminal.showln("1. Hipotecar");
-        textTerminal.showln("2. Deshipotecar");
+        textTerminal.showln("1.Hipotecar");
+        textTerminal.showln("2.Deshipotecar");
+        textTerminal.showln("3.Traspasar");
         textTerminal.show(">>Introduzca una opcion: ");
         switch(textTerminal.read()){
             case 1->{
@@ -116,6 +119,14 @@ public class Service extends Property{
                 } else{
                     textTerminal.error("Esta propiedad no esta hipotecada");
                 }
+            }
+            case 3 ->{
+                textTerminal.show(">>Introduzca el precio de venta: ");
+                int sellPrice = textTerminal.read();
+                textTerminal.show(">>Introduzca el codigo de jugador: ");
+                int idPlayer = textTerminal.read();
+                Player player = playerList.get(idPlayer);
+                this.getOwner().traspaseProperties(player, this, sellPrice);    
             }
             default -> textTerminal.error("Opcion incorrecta");
         }

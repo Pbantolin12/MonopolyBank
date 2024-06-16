@@ -196,10 +196,18 @@ public class Player implements Serializable{
     }
     
     //Traspasar propiedades entre jugadores
-    public void traspaseProperties(Player newOwner, Property property){
-        this.propertiesOwned.remove(property);
-        property.setOwner(newOwner);
-        newOwner.setProperty(property);
+    public void traspaseProperties(Player newOwner, Property property, int traspasePrice){
+        if(newOwner.pay(traspasePrice, false)){
+            this.propertiesOwned.remove(property);
+            property.setOwner(newOwner);
+            newOwner.setProperty(property);
+            textTerminal.showln("La propiedad &" + property.getName() + "& ha sido traspasada al jugador &" + 
+                    newOwner.getColor() + "& por &" + traspasePrice + "& euros");
+        } else{
+            textTerminal.error("Dinero insuficiente");
+        }
+        
+        
     }
     
     //Establecer una propiedad
